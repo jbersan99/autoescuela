@@ -51,8 +51,7 @@ require_once "entities/User.php";
             <input type="submit" value="Entrar" name="enviar">
         </form>
         <div>
-            <a>¿Has olvidado tu contraseña?</a> <br>
-            <a>Crear nueva cuenta de usuario</a>
+            <a>¿Has olvidado tu contraseña?</a>
         </div>
     </div>
 </body>
