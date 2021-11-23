@@ -50,9 +50,9 @@ require_once "entities/User.php";
             </label>
             <input type="submit" value="Entrar" name="enviar">
         </form>
-        <div>
+        <section>
             <a>¿Has olvidado tu contraseña?</a>
-        </div>
+        </section>
     </div>
 </body>
 </html>

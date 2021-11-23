@@ -39,4 +39,9 @@ class DB
 
         return $user;
     }
+
+    public static function insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $foto, $activo)
+    {
+        $consulta = self::$conexion->query("insert into usuario ('id', 'email', 'nombre', 'apellidos', 'password', 'nacimiento', 'rol', 'foto', 'activo') values (NULL, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', $activo)");
+    }
 }
