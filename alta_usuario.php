@@ -1,21 +1,43 @@
 <?php
 
 include "include/DB.php";
-require_once "include/Login.php";
 require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
 if (isset($_POST['enviar'])) {
-    var_dump("Enviar");
     $email = $_POST['email'];
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
     $password = $_POST['password'];
+    $password_confirm = $_POST['password_confirm'];
     $nacimiento = $_POST['nacimiento'];
     $rol = $_POST['rol'];
-    $foto = $_POST['foto'];
-    
+    $revisar = getimagesize($_FILES["image"]["tmp_name"]);
+
+    if (empty($email) || empty($nombre) || empty($apellidos) || empty($password) || empty($password_confirm) || empty($nacimiento) || $rol == null) {
+        Validator::Requerido($email);
+        Validator::Requerido($nombre);
+        Validator::Requerido($apellidos);
+        Validator::Requerido($password);
+        Validator::Requerido($password_confirm);
+        Validator::Requerido($nacimiento);
+        Validator::Requerido($rol);
+    } else if ($password != $password_confirm) {
+        Validator::EsIgual($password, $password_confirm);
+    } else if ($revisar == false) {
+        var_dump("Introduce una fotografía para continuar");
+    } else {
+        $image = $_FILES['image']['tmp_name'];
+        $imgContenido = file_get_contents($image);
+        $imgContenido = base64_encode($imgContenido);
+        $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido, 0);
+        if ($verifica) {
+            var_dump("El usuario se dió de alta correctamente");
+        } else {
+            var_dump("Hubo un fallo y no se pudó dar de alta");
+        }
+    }
 }
 
 ?>
@@ -35,7 +57,7 @@ if (isset($_POST['enviar'])) {
         <h1> Alta Usuario</h1>
     </header>
     <div class="alta">
-        <form action="inicio.php" method="post">
+        <form action="#" method="post" enctype="multipart/form-data">
             <label for="email"> Email <br>
                 <input type="email" name="email"><br>
             </label>
@@ -62,6 +84,10 @@ if (isset($_POST['enviar'])) {
 
             <input type="radio" id="rol_01" name="rol" value="Profesor">
             <label for="rol_Prof">Profesor</label> <br>
+
+            <label for="foto"> Selecciona la imagen de perfil <br>
+                <input type="file" class="form-control" id="image" name="image" multiple> <br>
+            </label>
 
             <input type="submit" value="Entrar" name="enviar">
         </form>

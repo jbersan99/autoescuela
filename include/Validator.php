@@ -25,6 +25,16 @@ class Validator
         }
         return true;
     }
+
+    public function EsIgual($campo_01, $campo_02)
+    {
+        if($campo_01 != $campo_02)
+        {
+            $this->errores[$campo_01]="El campo $campo_01 y el $campo_02 no pueden ser distintos";
+            return false;
+        }
+        return true;
+    }
 }
 
 ?>

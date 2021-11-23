@@ -7,7 +7,6 @@ require_once "include/Validator.php";
 require_once "entities/User.php";
 
     if(isset($_POST['enviar'])){
-        var_dump("Enviar");
         $email = $_POST['email'];
         $password = $_POST['password'];
 

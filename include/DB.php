@@ -42,6 +42,15 @@ class DB
 
     public static function insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $foto, $activo)
     {
-        $consulta = self::$conexion->query("insert into usuario ('id', 'email', 'nombre', 'apellidos', 'password', 'nacimiento', 'rol', 'foto', 'activo') values (NULL, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', $activo)");
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //$consulta = "INSERT INTO `usuario` (NULL,'$email','$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', 0)";
+        $consulta = "INSERT INTO `usuario` (`id`, `email`, `nombre`, `apellidos`, `password`, `nacimiento`, `rol`, `foto`, `activo`) VALUES (NULL, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', $activo)" ;
+        if(self::$conexion->exec($consulta)){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
