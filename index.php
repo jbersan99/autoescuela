@@ -9,10 +9,11 @@ require_once "entities/User.php";
     if(isset($_POST['enviar'])){
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $v = new Validator();
 
         if(empty($email) || empty($password)){
-            Validator::Requerido($email);
-            Validator::Requerido($password);
+            $v->Requerido($email);
+            $v->Requerido($password);
         }else{
             Login::doLogin($email,$password,false);
 

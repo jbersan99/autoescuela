@@ -9,7 +9,6 @@
         protected $nacimiento;
         protected $rol;
         protected $foto;
-        protected $activo;
 
         public function getId(){return $this->id;}
         public function getEmail(){return $this->email;}
@@ -19,7 +18,6 @@
         public function getNacimiento(){return $this->nacimiento;}
         public function getRol(){return $this->rol;}
         public function getFoto(){return $this->foto;}
-        public function getActivo(){return $this->activo;}
 
         public function __construct($row){
             $this->id = $row['id'];
@@ -30,7 +28,6 @@
             $this->nacimiento = $row['nacimiento'];
             $this->rol = $row['rol'];
             $this->foto = $row['foto'];
-            $this->activo = $row['activo'];
         }
     }
 

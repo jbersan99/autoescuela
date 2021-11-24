@@ -5,40 +5,41 @@ require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
-if (isset($_POST['enviar'])) {
-    $v = new Validator();
-    $email = $_POST['email'];
-    $nombre = $_POST['nombre'];
-    $apellidos = $_POST['apellidos'];
-    $password = $_POST['password'];
-    $password_confirm = $_POST['password_confirm'];
-    $nacimiento = $_POST['nacimiento'];
-    if (empty($email) || empty($nombre) || empty($apellidos) || empty($password) || empty($password_confirm) || empty($nacimiento) || $rol == null) {
-        $v->Requerido($email);
-        $v->Requerido($nombre);
-        $v->Requerido($password);
-        $v->Requerido($password_confirm);
-        $v->Requerido($nacimiento);
-        $v->Requerido($rol);
-    } else if ($password != $password_confirm) {
-        $v->EsIgual($password, $password_confirm);
-    } else if ($revisar == false) {
-        var_dump("Introduce una fotografía para continuar");
-    } else {
-        $rol = $_POST['rol'];
-        $revisar = getimagesize($_FILES["image"]["tmp_name"]);
-        $image = $_FILES['image']['tmp_name'];
-        $imgContenido = file_get_contents($image);
-        $imgContenido = base64_encode($imgContenido);
-        $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido, 0);
-        if ($verifica) {
-            var_dump("El usuario se dió de alta correctamente");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['enviar'])) {
+        $v = new Validator();
+        $email = $_POST['email'];
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $password = $_POST['password'];
+        $password_confirm = $_POST['password_confirm'];
+        $nacimiento = $_POST['nacimiento'];
+        if (empty($email) || empty($nombre) || empty($apellidos) || empty($password) || empty($password_confirm) || empty($nacimiento)) {
+            $rol = $_POST['rol'];
+            $v->Requerido($email);
+            $v->Requerido($nombre);
+            $v->Requerido($password);
+            $v->Requerido($password_confirm);
+            $v->Requerido($nacimiento);
+            $errores = $v->__construct();
+        } else if ($password != $password_confirm) {
+            $v->EsIgual($password, $password_confirm);
+        } else if ($revisar == false) {
+            var_dump("Introduce una fotografía para continuar");
         } else {
-            var_dump("Hubo un fallo y no se pudó dar de alta");
+            $revisar = getimagesize($_FILES["image"]["tmp_name"]);
+            $image = $_FILES['image']['tmp_name'];
+            $imgContenido = file_get_contents($image);
+            $imgContenido = base64_encode($imgContenido);
+            $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido, 0);
+            if ($verifica) {
+                var_dump("El usuario se dió de alta correctamente");
+            } else {
+                var_dump("Hubo un fallo y no se pudó dar de alta");
+            }
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +79,7 @@ if (isset($_POST['enviar'])) {
 
             <p>Selecciona el rol</p>
 
-            <input type="radio" id="rol_01" name="rol" value="Usuario">
+            <input type="radio" id="rol_01" name="rol" value="Usuario" checked>
             <label for="rol_User">Usuario</label>
 
             <input type="radio" id="rol_01" name="rol" value="Profesor">
