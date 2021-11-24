@@ -6,28 +6,27 @@ require_once "include/Validator.php";
 require_once "entities/User.php";
 
 if (isset($_POST['enviar'])) {
+    $v = new Validator();
     $email = $_POST['email'];
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
     $nacimiento = $_POST['nacimiento'];
-    $rol = $_POST['rol'];
-    $revisar = getimagesize($_FILES["image"]["tmp_name"]);
-
     if (empty($email) || empty($nombre) || empty($apellidos) || empty($password) || empty($password_confirm) || empty($nacimiento) || $rol == null) {
-        Validator::Requerido($email);
-        Validator::Requerido($nombre);
-        Validator::Requerido($apellidos);
-        Validator::Requerido($password);
-        Validator::Requerido($password_confirm);
-        Validator::Requerido($nacimiento);
-        Validator::Requerido($rol);
+        $v->Requerido($email);
+        $v->Requerido($nombre);
+        $v->Requerido($password);
+        $v->Requerido($password_confirm);
+        $v->Requerido($nacimiento);
+        $v->Requerido($rol);
     } else if ($password != $password_confirm) {
-        Validator::EsIgual($password, $password_confirm);
+        $v->EsIgual($password, $password_confirm);
     } else if ($revisar == false) {
         var_dump("Introduce una fotografía para continuar");
     } else {
+        $rol = $_POST['rol'];
+        $revisar = getimagesize($_FILES["image"]["tmp_name"]);
         $image = $_FILES['image']['tmp_name'];
         $imgContenido = file_get_contents($image);
         $imgContenido = base64_encode($imgContenido);
