@@ -8,30 +8,38 @@ require_once "entities/User.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         $v = new Validator();
-        $email = $_POST['email'];
-        $nombre = $_POST['nombre'];
-        $apellidos = $_POST['apellidos'];
-        $password = $_POST['password'];
-        $password_confirm = $_POST['password_confirm'];
-        $nacimiento = $_POST['nacimiento'];
-        if (empty($email) || empty($nombre) || empty($apellidos) || empty($password) || empty($password_confirm) || empty($nacimiento)) {
-            $rol = $_POST['rol'];
-            $v->Requerido($email);
-            $v->Requerido($nombre);
-            $v->Requerido($password);
-            $v->Requerido($password_confirm);
-            $v->Requerido($nacimiento);
-            $errores = $v->__construct();
-        } else if ($password != $password_confirm) {
-            $v->EsIgual($password, $password_confirm);
-        } else if ($revisar == false) {
-            var_dump("Introduce una fotografía para continuar");
+        $v->Requerido('email');
+        $v->Requerido('nombre');
+        $v->Requerido('apellidos');
+        $v->Requerido('password');
+        $v->Requerido('password_confirm');
+        $v->Requerido('nacimiento');
+        if (count($v->errores) > 0) {
+            echo $v->errores['email'] . "<br>";
+            echo $v->errores['nombre'] . "<br>";
+            echo $v->errores['apellidos'] . "<br>";
+            echo $v->errores['password'] . "<br>";
+            echo $v->errores['password_confirm'] . "<br>";
+            echo $v->errores['nacimiento'] . "<br>";
+            if ($_FILES["image"]["size"] == 0) {
+                echo "Introduce una fotografía para continuar";
+            }
+        } else if ($_POST["password"] != $_POST["password_confirm"]) {
+            echo "El campo de la contraseña y confirmar contraseña deben ser iguales";
+        } else if ($_FILES["image"]["size"] == 0) {
+            echo "Introduce una fotografía para continuar";
         } else {
-            $revisar = getimagesize($_FILES["image"]["tmp_name"]);
+            $email = $_POST['email'];
+            $nombre = $_POST['nombre'];
+            $apellidos = $_POST['apellidos'];
+            $password = $_POST['password'];
+            $password_confirm = $_POST['password_confirm'];
+            $nacimiento = $_POST['nacimiento'];
+            $rol = $_POST['rol'];
             $image = $_FILES['image']['tmp_name'];
             $imgContenido = file_get_contents($image);
             $imgContenido = base64_encode($imgContenido);
-            $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido, 0);
+            $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
             if ($verifica) {
                 var_dump("El usuario se dió de alta correctamente");
             } else {
@@ -59,22 +67,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="alta">
         <form action="#" method="post" enctype="multipart/form-data">
             <label for="email"> Email <br>
-                <input type="email" name="email"><br>
+                <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br>
             </label>
             <label for="nombre"> Nombre <br>
-                <input type="text" name="nombre"> <br>
+                <input type="text" name="nombre" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"> <br>
             </label>
             <label for="apellidos"> Apellidos <br>
-                <input type="text" name="apellidos"> <br>
+                <input type="text" name="apellidos" value="<?php echo isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : ''; ?>"> <br>
             </label>
             <label for="password"> Contraseña <br>
-                <input type="password" name="password"><br>
+                <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>
             </label>
             <label for="password_confirm"> Confirmar Contraseña <br>
-                <input type="password" name="password_confirm"><br>
+                <input type="password" name="password_confirm" value="<?php echo isset($_POST['password_confirm']) ? htmlspecialchars($_POST['password_confirm']) : ''; ?>"><br>
             </label>
             <label for="nacimiento"> Fecha de Nacimiento <br>
-                <input type="date" name="nacimiento"><br>
+                <input type="date" name="nacimiento" value="<?php echo isset($_POST['nacimiento']) ? htmlspecialchars($_POST['nacimiento']) : ''; ?>"><br>
             </label>
 
             <p>Selecciona el rol</p>

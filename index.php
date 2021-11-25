@@ -6,23 +6,24 @@ require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
-    if(isset($_POST['enviar'])){
+if (isset($_POST['enviar'])) {
+    $v = new Validator();
+    $v->Requerido('email');
+    $v->Requerido('password');
+    if (count($v->errores) > 0) {
+        echo $v->errores['email']. "<br>";
+        echo $v->errores['password'];
+    } else {
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $v = new Validator();
+        Login::doLogin($email, $password, false);
 
-        if(empty($email) || empty($password)){
-            $v->Requerido($email);
-            $v->Requerido($password);
-        }else{
-            Login::doLogin($email,$password,false);
-
-            if(Login::UserisLogged()){
-                Sesion::escribir('usuario', DB::getUser($email, $password));
-                header("Location: inicio.php");
-            }
+        if (Login::UserisLogged()) {
+            Sesion::escribir('usuario', DB::getUser($email, $password));
+            header("Location: inicio.php");
         }
     }
+}
 
 ?>
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ require_once "entities/User.php";
         <img src="img/avatar.png" alt="logo">
     </header>
     <div class="login">
-        <form action="inicio.php" method="post">
+        <form action="#" method="post">
             <label for="email"> Email <br>
                 <input type="text" name="email"><br>
             </label>
@@ -55,4 +56,5 @@ require_once "entities/User.php";
         </section>
     </div>
 </body>
+
 </html>
