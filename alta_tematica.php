@@ -13,12 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $v->Requerido($tematica);
             $errores = $v->__construct();
         }else{
-            $verificar = DB::insertThematic($tematica);
-            if($verificar){
-                header("Location: inicio.php");
+            $misma_tematica = DB::existsThematic($tematica);
+            if(!$misma_tematica){
+                $verificar = DB::insertThematic($tematica);
+                if($verificar){
+                    header("Location: inicio.php");
+                }else{
+                    echo "Hubo un problema introduciendo la nueva tematica";
+                }
             }else{
-                echo "Hubo un problema introduciendo la nueva tematica";
+                echo "Esta tematica ya esta registrada en la base de datos";
             }
+            
         }
     }
 }

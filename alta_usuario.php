@@ -39,11 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = $_FILES['image']['tmp_name'];
             $imgContenido = file_get_contents($image);
             $imgContenido = base64_encode($imgContenido);
-            $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
-            if ($verifica) {
-                var_dump("El usuario se dió de alta correctamente");
-            } else {
-                var_dump("Hubo un fallo y no se pudó dar de alta");
+            $mismo_email = DB::existsUser($email);
+            if (!$mismo_email) {
+                $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
+                if ($verifica) {
+                    echo("El usuario se dió de alta correctamente");
+                } else {
+                    echo("Hubo un fallo y no se pudó dar de alta");
+                }
+            }else{
+                echo "El email introducido ya está registrado en la base de datos";
             }
         }
     }
