@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
+
 include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "entities/Tematica.php";
@@ -8,13 +11,13 @@ require_once "include/Validator.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         $v = new Validator();
-        $tematica = $_POST['tematica'];
-        if (empty($tematica)) {
-            $v->Requerido($tematica);
-            $errores = $v->__construct();
+        $v->Requerido('tema');
+        if(count($v->errores) > 0){
+            echo $v->errores['tema']. "<br>";
         }else{
-            $misma_tematica = DB::existsThematic($tematica);
-            if(!$misma_tematica){
+            $tematica = $_POST['tema'];
+            $existe_tematica = DB::existsThematic($tematica);
+            if($existe_tematica == "No existe"){
                 $verificar = DB::insertThematic($tematica);
                 if($verificar){
                     header("Location: inicio.php");
@@ -24,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }else{
                 echo "Esta tematica ya esta registrada en la base de datos";
             }
-            
         }
     }
 }
@@ -46,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <div class="alta">
         <form action="#" method="post">
-            <label for="tematica"> Tematica <br>
-                <input type="text" name="tematica"><br>
+            <label for="tematica"> Tema a escoger <br>
+                <input type="text" name="tema"><br>
             </label>
             <input type="submit" value="Introducir" name="enviar">
         </form>

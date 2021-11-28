@@ -55,11 +55,14 @@ class DB
     public static function existsUser($email)
     {
         self::conectarPDO();
-        $consulta = self::$conexion->query("select email from usuario where email ='$email'");
-        if ($consulta) {
-            return true;
+
+        $query = "SELECT * FROM usuario WHERE email = '$email'";
+        $query_res = self::$conexion->query($query);
+        $count = count($query_res->fetchAll());
+        if ($count > 0) {
+            return "Existe";
         } else {
-            return false;
+            return "No existe";
         }
     }
 
@@ -93,11 +96,14 @@ class DB
     public static function existsThematic($tema)
     {
         self::conectarPDO();
-        $consulta = self::$conexion->query("select tema from usuario where tema ='$tema'");
-        if ($consulta) {
-            return true;
+
+        $query = "SELECT * FROM tematica WHERE tema = '$tema'";
+        $query_res = self::$conexion->query($query);
+        $count = count($query_res->fetchAll());
+        if ($count > 0) {
+            return "Existe";
         } else {
-            return false;
+            return "No existe";
         }
     }
 }

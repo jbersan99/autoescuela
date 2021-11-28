@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Validator.php";
@@ -39,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = $_FILES['image']['tmp_name'];
             $imgContenido = file_get_contents($image);
             $imgContenido = base64_encode($imgContenido);
-            $mismo_email = DB::existsUser($email);
-            if (!$mismo_email) {
+            $existe_email = DB::existsUser($email);
+            if ($existe_email == "No existe") {
                 $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
                 if ($verifica) {
                     echo("El usuario se dió de alta correctamente");
@@ -81,10 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="apellidos" value="<?php echo isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : ''; ?>"> <br>
             </label>
             <label for="password"> Contraseña <br>
-                <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>
+                <input type="password" name="password" value="123"><br>
             </label>
             <label for="password_confirm"> Confirmar Contraseña <br>
-                <input type="password" name="password_confirm" value="<?php echo isset($_POST['password_confirm']) ? htmlspecialchars($_POST['password_confirm']) : ''; ?>"><br>
+                <input type="password" name="password_confirm" value="123"><br>
             </label>
             <label for="nacimiento"> Fecha de Nacimiento <br>
                 <input type="date" name="nacimiento" value="<?php echo isset($_POST['nacimiento']) ? htmlspecialchars($_POST['nacimiento']) : ''; ?>"><br>
