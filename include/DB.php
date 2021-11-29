@@ -106,4 +106,48 @@ class DB
             return "No existe";
         }
     }
+
+    public static function insertQuestion($enunciado_pregunta, $id_respuesta_correcta, $recurso, $id_tematica): int
+    {
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = "INSERT INTO `preguntas`(`id`, `enunciado_pregunta`, `respuesta_correcta`, `recurso`, `id_tematica`) VALUES (NULL, '$enunciado_pregunta', $id_respuesta_correcta, '$recurso', $id_tematica)";
+        if (self::$conexion->exec($consulta)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getAllQuestions():int
+    {
+        self::conectarPDO();
+
+        $stmt = self::$conexion->query("SELECT COUNT(id) FROM preguntas");
+        $numero = $stmt->fetch();
+        return $numero['COUNT(id)'];
+    }
+
+    public static function insertAnswer($enunciado_respuesta, $id_pregunta)
+    {
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = "INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) VALUES (NULL, '$enunciado_respuesta', $id_pregunta)";
+        if (self::$conexion->exec($consulta)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getAllAnswers():int
+    {
+        self::conectarPDO();
+
+        $stmt = self::$conexion->query("SELECT COUNT(id) FROM respuesta");
+        $numero = $stmt->fetch();
+        return $numero['COUNT(id)'];
+    }
+
+    
 }
