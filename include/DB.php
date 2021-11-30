@@ -29,11 +29,8 @@ class DB
     {
         $consulta = self::$conexion->query("select * from autoescuela where correo ='$email' and password='$password'");
 
-        while ($user_info = $consulta->fetch()) {
-            $user = new User(array(
-                'ID' => $user_info['id'], 'Email' => $user_info['email'],
-                'Nombre' => $user_info['nombre'], 'Apellidos' => $user_info['apellidos'], 'Password' => $user_info['password'], 'Rol' => $user_info['rol'], 'Foto' => $user_info['foto']
-            ));
+        while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User($user_info);
         }
 
         return $user;
@@ -79,15 +76,24 @@ class DB
         return $usuarios;
     }
 
+    public static function getThematic($id): Tematica
+    {
+        $consulta = self::$conexion->query("select * from tematica where id = $id");
+
+        while ($tematica_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $tematica = new Tematica($tematica_info);
+        }
+
+        return $tematica;
+    }
+
     public static function getThematics(): array
     {
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from tematica");
 
-        while ($tematica_info = $consulta->fetch()) {
-            $tematica = new Tematica(array(
-                'id' => $tematica_info['id'], 'tema' => $tematica_info['tema']
-            ));
+        while ($tematica_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $tematica = new Tematica($tematica_info);
             $tematicas[] = $tematica;
         }
 
@@ -139,6 +145,19 @@ class DB
         $stmt = self::$conexion->query("SELECT COUNT(id) FROM preguntas");
         $numero = $stmt->fetch();
         return $numero['COUNT(id)'];
+    }
+
+    public static function getQuestions(): array
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from preguntas");
+
+        while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $pregunta = new Preguntas($pregunta_info);
+            $preguntas[] = $pregunta;
+        }
+
+        return $preguntas;
     }
 
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)

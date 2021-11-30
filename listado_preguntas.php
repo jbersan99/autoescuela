@@ -7,7 +7,7 @@ require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
-$usuarios = DB::getUsers();
+$preguntas = DB::getQuestions();
 ?>
 
 <!DOCTYPE html>
@@ -24,20 +24,18 @@ $usuarios = DB::getUsers();
 <body>
     <table>
         <tr>
-            <th>Alumnos</th>
-            <th>Rol</th>
-            <th>Examenes Realizados</th>
-            <th>Confirmados</th>
+            <th>ID</th>
+            <th>Enunciado</th>
+            <th>Tematica</th>
             <th>Acciones</th>
         </tr>
         <?php
-        foreach ($usuarios as $usuario) {
+        foreach ($preguntas as $pregunta) {
             echo "<tr>";
-            echo "<td>" . $usuario->getNombre() . "</td>";
-            echo "<td>" . $usuario->getRol() . "</td>";
-            echo "<td>" . 2 . "</td>";
-            echo "<td>" . "Si". "</td>";
-            echo "<td>" . "Acciones" . "</td>";
+            echo "<td>" . $pregunta->getId() . "</td>";
+            echo "<td>" . $pregunta->getEnunciado_pregunta() . "</td>";
+            echo "<td>" . DB::getThematic($pregunta->getId_tematica())->getTema(). "</td>";
+            echo "<td>" . "Editar" . "</td>";
             echo "</tr>";
         }
         ?>
