@@ -12,8 +12,6 @@ $tematicas = DB::getThematics();
 $numero_respuestas = DB::getAllAnswers();
 $numero_preguntas = DB::getAllQuestions();
 
-var_dump($numero_respuestas);
-
 if (isset($_POST['enviar'])) {
     switch ($_POST['correcta']) {
         case 1:
@@ -21,28 +19,28 @@ if (isset($_POST['enviar'])) {
             DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 1, "recurso", /* $_POST["tematica"] */ 1);
+            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 1, "recurso", $_POST["tematica"]);
             break;
         case 2:
             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 2, "recurso", /* $_POST["tematica"] */ 1);
+            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 2, "recurso",$_POST["tematica"]);
             break;
         case 3:
             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 3, "recurso", /* $_POST["tematica"] */ 1);
+            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 3, "recurso",$_POST["tematica"]);
             break;
         case 4:
             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 4, "recurso", /* $_POST["tematica"] */ 1);
+            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 4, "recurso",$_POST["tematica"]);
             break;
     }
 }
@@ -66,7 +64,13 @@ if (isset($_POST['enviar'])) {
     <form action="#" method="post">
         <label for="tematica"> Tematica <br>
             <select name="tematica">
-
+                <?php
+                foreach ($tematicas as $tematica) {
+                    $linea = "";
+                    $linea = $linea . '<option value="' . $tematica->getId() . '">' . $tematica->getTema() . '</option>';
+                }
+                echo $linea;
+                ?>
             </select>
             <br>
         </label>

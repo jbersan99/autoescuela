@@ -66,6 +66,19 @@ class DB
         }
     }
 
+    public static function getUsers(): array
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from usuario");
+
+        while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User($user_info);
+            $usuarios[] = $user;
+        }
+
+        return $usuarios;
+    }
+
     public static function getThematics(): array
     {
         self::conectarPDO();
