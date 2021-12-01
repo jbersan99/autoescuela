@@ -7,7 +7,6 @@ require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
-$preguntas = DB::getQuestions();
 ?>
 
 <!DOCTYPE html>
@@ -22,25 +21,36 @@ $preguntas = DB::getQuestions();
 </head>
 
 <body>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Enunciado</th>
-            <th>Tematica</th>
-            <th>Acciones</th>
-        </tr>
-        <?php
+    <?php
+
+    $preguntas = DB::getQuestions();
+
+    echo "<table>";
+    echo "<tr>";
+    echo "<th>ID</th>";
+    echo "<th>Enunciado</th>";
+    echo "<th>Tematica</th>";
+    echo "<th>Acciones</th>";
+    echo "</tr>";
+
+    if ($preguntas[0] != "No hay preguntas") {
+
         foreach ($preguntas as $pregunta) {
             echo "<tr>";
             echo "<td>" . $pregunta->getId() . "</td>";
             echo "<td>" . $pregunta->getEnunciado_pregunta() . "</td>";
-            echo "<td>" . DB::getThematic($pregunta->getId_tematica())->getTema(). "</td>";
+            echo "<td>" . DB::getThematic($pregunta->getId_tematica())->getTema() . "</td>";
             echo "<td>" . "Editar" . "</td>";
             echo "</tr>";
         }
-        ?>
+    } else {
+        echo "<tr>";
+        echo "<td colspan='4'> No existen Preguntas </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    ?>
 
-    </table>
 </body>
 
 </html>

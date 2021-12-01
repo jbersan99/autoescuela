@@ -6,7 +6,7 @@ class Login
 {
     public static function doLogin(string $email, string $password, bool $recuerdame)
     {
-        if (self::thereisUser($email, $password)) {
+        if (self::thereisUser($email, $password) != "Las credenciales son invalidas") {
             Sesion::iniciar();
             Sesion::escribir('login_email', $email);
             Sesion::escribir('login_pass', $password);
@@ -14,7 +14,9 @@ class Login
                 setcookie('email_recuerda', $email, time() + 30 * 24 * 60 * 60);
                 setcookie('pass_recuerda', $password, time() + 30 * 24 * 60 * 60);
             }
-            return true;
+            return "Las credenciales son validas";
+        }else{
+            return "Las credenciales son invalidas";
         }
         return false;
     }

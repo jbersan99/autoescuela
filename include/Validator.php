@@ -1,21 +1,13 @@
 <?php
 class Validator
 {
-    //Array de errores
     public $errores;
 
-    //Constructor
     public function __construct()
     {
         $this->errores=array();
     }
 
-    /**
-     * Comprueba si esta vacio
-     *
-     * @param [type] $campo
-     * @return boolean
-     */ 
     public function Requerido($campo)
     {
         if(!isset($_POST[$campo]) || empty($_POST[$campo]))
@@ -24,6 +16,16 @@ class Validator
             return false;
         }
         return true;
+    }
+
+    public function EmailValido($email)
+    {
+        $patron_email = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
+        if(preg_match($patron_email, $email)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

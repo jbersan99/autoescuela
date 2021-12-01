@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 include "include/DB.php";
 require_once "include/Login.php";
 require_once "include/Sesion.php";
@@ -11,16 +13,20 @@ if (isset($_POST['enviar'])) {
     $v->Requerido('email');
     $v->Requerido('password');
     if (count($v->errores) > 0) {
-        echo $v->errores['email']. "<br>";
+        echo $v->errores['email'] . "<br>";
         echo $v->errores['password'];
+    } else if (!$v->EmailValido($_POST['email'])) {
+        echo "Introduce un email que sea valido";
     } else {
         $email = $_POST['email'];
         $password = $_POST['password'];
-        Login::doLogin($email, $password, false);
-
-        if (Login::UserisLogged()) {
+        $logueado = Login::doLogin($email, $password, false);
+        if ($logueado != "Las credenciales son invalidas") {
+            Login::UserisLogged();
             Sesion::escribir('usuario', DB::getUser($email, $password));
             header("Location: inicio.php");
+        } else{
+            echo "Las credenciales son introducidas son invalidas";
         }
     }
 }

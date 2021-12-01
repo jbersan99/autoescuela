@@ -22,33 +22,31 @@ require_once "entities/User.php";
 
 <body>
     <?php
-    $usuarios = DB::getUsers();
+    $tematicas = DB::getThematics();
 
     echo "<table>";
     echo "<tr>";
-    echo "<th>Alumnos</th>";
-    echo "<th>Rol</th>";
-    echo "<th>Examenes Realizados</th>";
-    echo "<th>Confirmados</th>";
+    echo "<th>Tematica</th>";
+    echo "<th>Activada</th>";
     echo "<th>Acciones</th>";
     echo "</tr>";
-    
-    if($usuarios[0] != "No hay usuarios"){
-        foreach ($usuarios as $usuario) {
+
+    if($tematicas[0] != "No hay tematicas"){
+        foreach ($tematicas as $tematica) {
             echo "<tr>";
-            echo "<td>" . $usuario->getNombre() . "</td>";
-            echo "<td>" . $usuario->getRol() . "</td>";
-            echo "<td>" . 2 . "</td>";
-            echo "<td>" . "Si" . "</td>";
+            echo "<td>" . $tematica->getTema() . "</td>";
+            echo "<td>" . "Activada" . "</td>";
             echo "<td>" . "Acciones" . "</td>";
             echo "</tr>";
         }
     }else{
         echo    "<tr>";
-        echo    "<td colspan='5'> No existen Usuarios </td>";
+        echo    "<td colspan='4'> No existen Tematicas </td>";
         echo    "</tr>";
     }
+
     
+
 
     echo "</table>";
     ?>

@@ -18,19 +18,27 @@ class DB
 
     public static function thereisUser($email, $password)
     {
-        $query = self::$conexion->query("SELECT * FROM autoescuela " . "WHERE email='$email' " . "AND password='" . $password . "'");
-        if ($resultado = $query->fetch()) {
-            $fila = $resultado->fetch();
-            return ($fila != null);
+        $consulta = self::$conexion->query("select COUNT(id) from usuario where email ='$email' and password='$password'");
+        $numero = $consulta->fetch(PDO::FETCH_ASSOC);
+        if($numero['COUNT(id)'] > 0){
+            return "Las credenciales son validas";
+        }else{
+            return "Las credenciales son invalidas";
         }
+        
     }
 
     public static function getUser($email, $password): User
     {
-        $consulta = self::$conexion->query("select * from autoescuela where correo ='$email' and password='$password'");
+        $consulta = self::$conexion->query("select * from usuario where email ='$email' and password='$password'");
 
         while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            $user = new User($user_info);
+            if($user_info != null){
+                $user = new User($user_info);
+            }else{
+                $user = "No hay usuario";
+            }
+            
         }
 
         return $user;
@@ -68,12 +76,28 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from usuario");
 
-        while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            $user = new User($user_info);
-            $usuarios[] = $user;
+        if(self::getAllUsers() < 0){
+            while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $user = new User($user_info);
+                $usuarios[] = $user;
+            }
+    
+            return $usuarios;
+        }else{
+            $usuarios[] = "No hay usuarios";
+            return $usuarios;
         }
 
-        return $usuarios;
+        
+    }
+
+    public static function getAllUsers():int
+    {
+        self::conectarPDO();
+
+        $stmt = self::$conexion->query("SELECT COUNT(id) FROM usuario");
+        $numero = $stmt->fetch();
+        return $numero['COUNT(id)'];
     }
 
     public static function getThematic($id): Tematica
@@ -92,12 +116,19 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from tematica");
 
-        while ($tematica_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            $tematica = new Tematica($tematica_info);
-            $tematicas[] = $tematica;
+        if(self::getAllThematics() < 0){
+            while ($tematica_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $tematica = new Tematica($tematica_info);
+                $tematicas[] = $tematica;
+            }
+    
+            return $tematicas;
+        }else{
+            $tematicas[] = "No hay tematicas";
+            return $tematicas;
         }
 
-        return $tematicas;
+        
     }
 
     public static function insertThematic($tema)
@@ -126,6 +157,15 @@ class DB
         }
     }
 
+    public static function getAllThematics():int
+    {
+        self::conectarPDO();
+
+        $stmt = self::$conexion->query("SELECT COUNT(id) FROM tematica");
+        $numero = $stmt->fetch();
+        return $numero['COUNT(id)'];
+    }
+
     public static function insertQuestion($enunciado_pregunta, $id_respuesta_correcta, $recurso, $id_tematica): int
     {
         self::conectarPDO();
@@ -152,12 +192,19 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from preguntas");
 
-        while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            $pregunta = new Preguntas($pregunta_info);
-            $preguntas[] = $pregunta;
+        if(self::getAllQuestions() < 0){
+            while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $pregunta = new Preguntas($pregunta_info);
+                $preguntas[] = $pregunta;
+            }
+    
+            return $preguntas;
+        }else{
+            $preguntas[] = "No hay preguntas";
+            return $preguntas;
         }
 
-        return $preguntas;
+        
     }
 
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)
