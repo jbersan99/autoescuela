@@ -30,6 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "El campo de la contraseña y confirmar contraseña deben ser iguales";
         } else if ($_FILES["image"]["size"] == 0) {
             echo "Introduce una fotografía para continuar";
+        } else if (!$v->EmailValido($_POST['email'])) {
+            echo "Introduce un email que sea valido";
+        } else if (!$v->NombreValido($_POST['nombre'])) {
+            echo "Introduce un nombre que sea valido";
+        } else if (!$v->NombreValido($_POST['apellidos'])) {
+            echo "Introduce un apellidos que sea valido";
         } else {
             $email = $_POST['email'];
             $nombre = $_POST['nombre'];
@@ -45,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($existe_email == "No existe") {
                 $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
                 if ($verifica) {
-                    echo("El usuario se dió de alta correctamente");
+                    header("Location: inicio.php");
                 } else {
-                    echo("Hubo un fallo y no se pudó dar de alta");
+                    echo ("Hubo un fallo y no se pudó dar de alta");
                 }
-            }else{
+            } else {
                 echo "El email introducido ya está registrado en la base de datos";
             }
         }
@@ -83,10 +89,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="apellidos" value="<?php echo isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : ''; ?>"> <br>
             </label>
             <label for="password"> Contraseña <br>
-                <input type="password" name="password" value="123"><br>
+                <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>
             </label>
             <label for="password_confirm"> Confirmar Contraseña <br>
-                <input type="password" name="password_confirm" value="123"><br>
+                <input type="password" name="password_confirm" value="<?php echo isset($_POST['password_confirm']) ? htmlspecialchars($_POST['password_confirm']) : ''; ?>"><br>
             </label>
             <label for="nacimiento"> Fecha de Nacimiento <br>
                 <input type="date" name="nacimiento" value="<?php echo isset($_POST['nacimiento']) ? htmlspecialchars($_POST['nacimiento']) : ''; ?>"><br>
@@ -101,7 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="rol_Prof">Profesor</label> <br>
 
             <label for="foto"> Selecciona la imagen de perfil <br>
-                <input type="file" class="form-control" id="image" name="image" multiple> <br>
+                <input type="file" class="form-control" id="image" name="image"><br>
+                <img id="imagenPrevisualizacion" width="150"> <br>
+                <script src="scripts/script.js"></script>
             </label>
 
             <input type="submit" value="Entrar" name="enviar">

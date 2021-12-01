@@ -75,7 +75,7 @@ if (isset($_POST['enviar'])) {
             <br>
         </label>
         <label for="enunciado"> Enunciado <br>
-            <input type="textarea" name="enunciado" value="<?php echo isset($_POST['enunciado']) ? htmlspecialchars($_POST['enunciado']) : ''; ?>"><br>
+            <textarea name="enunciado" cols="30" rows="10" value="<?php echo isset($_POST['enunciado']) ? htmlspecialchars($_POST['enunciado']) : ''; ?>"></textarea> <br>
         </label>
         <label for="opcion1"> Opcion 1 <br>
             <input type="text" name="respuesta_1" value="<?php echo isset($_POST['respuesta_1']) ? htmlspecialchars($_POST['respuesta_1']) : ''; ?>">

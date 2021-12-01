@@ -28,4 +28,14 @@ class Validator
         }
     }
 
+    public function NombreValido($nombre)
+    {
+        $patron_nombre = "/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/";
+        if(preg_match($patron_nombre, $nombre)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

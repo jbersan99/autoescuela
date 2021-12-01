@@ -20,12 +20,11 @@ class DB
     {
         $consulta = self::$conexion->query("select COUNT(id) from usuario where email ='$email' and password='$password'");
         $numero = $consulta->fetch(PDO::FETCH_ASSOC);
-        if($numero['COUNT(id)'] > 0){
+        if ($numero['COUNT(id)'] > 0) {
             return "Las credenciales son validas";
-        }else{
+        } else {
             return "Las credenciales son invalidas";
         }
-        
     }
 
     public static function getUser($email, $password): User
@@ -33,12 +32,11 @@ class DB
         $consulta = self::$conexion->query("select * from usuario where email ='$email' and password='$password'");
 
         while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            if($user_info != null){
+            if ($user_info != null) {
                 $user = new User($user_info);
-            }else{
+            } else {
                 $user = "No hay usuario";
             }
-            
         }
 
         return $user;
@@ -76,28 +74,45 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from usuario");
 
-        if(self::getAllUsers() < 0){
+        if (self::getAllUsers() < 0) {
             while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 $user = new User($user_info);
                 $usuarios[] = $user;
             }
-    
+
             return $usuarios;
-        }else{
+        } else {
             $usuarios[] = "No hay usuarios";
             return $usuarios;
         }
-
-        
     }
 
-    public static function getAllUsers():int
+    public static function getAllUsers(): int
     {
         self::conectarPDO();
 
         $stmt = self::$conexion->query("SELECT COUNT(id) FROM usuario");
         $numero = $stmt->fetch();
         return $numero['COUNT(id)'];
+    }
+
+    public static function insertMassiveUsers($all_data)
+    {
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
+        foreach ($all_data as $data) {
+            $sql = self::$conexion->prepare("INSERT INTO usuario (id, email, nombre, apellidos, password, nacimiento, rol, foto) 
+            VALUES (:id, :email, :nombre, :apellidos, :password, :nacimiento, :rol, :foto)");
+            $sql->bindParam(':id', $data['id']);
+            $sql->bindParam(':email', $data['email']);
+            $sql->bindParam(':nombre', $data['nombre']);
+            $sql->bindParam(':apellidos', $data['apellidos']);
+            $sql->bindParam(':password', $data['password']);
+            $sql->bindParam(':nacimiento', $data['nacimiento']);
+            $sql->bindParam(':rol', $data['rol']);
+            $sql->bindParam(':foto', $data['foto']);
+            $sql->execute();
+        }
     }
 
     public static function getThematic($id): Tematica
@@ -116,19 +131,17 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from tematica");
 
-        if(self::getAllThematics() < 0){
+        if (self::getAllThematics() > 0) {
             while ($tematica_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 $tematica = new Tematica($tematica_info);
                 $tematicas[] = $tematica;
             }
-    
+
             return $tematicas;
-        }else{
+        } else {
             $tematicas[] = "No hay tematicas";
             return $tematicas;
         }
-
-        
     }
 
     public static function insertThematic($tema)
@@ -157,7 +170,7 @@ class DB
         }
     }
 
-    public static function getAllThematics():int
+    public static function getAllThematics(): int
     {
         self::conectarPDO();
 
@@ -178,7 +191,7 @@ class DB
         }
     }
 
-    public static function getAllQuestions():int
+    public static function getAllQuestions(): int
     {
         self::conectarPDO();
 
@@ -192,19 +205,17 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from preguntas");
 
-        if(self::getAllQuestions() < 0){
+        if (self::getAllQuestions() < 0) {
             while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 $pregunta = new Preguntas($pregunta_info);
                 $preguntas[] = $pregunta;
             }
-    
+
             return $preguntas;
-        }else{
+        } else {
             $preguntas[] = "No hay preguntas";
             return $preguntas;
         }
-
-        
     }
 
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)
@@ -219,7 +230,7 @@ class DB
         }
     }
 
-    public static function getAllAnswers():int
+    public static function getAllAnswers(): int
     {
         self::conectarPDO();
 
@@ -227,6 +238,4 @@ class DB
         $numero = $stmt->fetch();
         return $numero['COUNT(id)'];
     }
-
-    
 }
