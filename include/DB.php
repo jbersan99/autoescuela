@@ -47,7 +47,7 @@ class DB
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$consulta = "INSERT INTO `usuario` (NULL,'$email','$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', 0)";
-        $consulta = "INSERT INTO `usuario` (`id`, `email`, `nombre`, `apellidos`, `password`, `nacimiento`, `rol`, `foto`) VALUES (NULL, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto')";
+        $consulta = "INSERT INTO `usuario` (`id`, `email`, `nombre`, `apellidos`, `password`, `nacimiento`, `rol`, `foto`) VALUES (DEFAULT, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto')";
         if (self::$conexion->exec($consulta)) {
             return true;
         } else {
@@ -74,7 +74,7 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("select * from usuario");
 
-        if (self::getAllUsers() < 0) {
+        if (self::getAllUsers() > 0) {
             while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 $user = new User($user_info);
                 $usuarios[] = $user;
@@ -102,15 +102,14 @@ class DB
         self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
         foreach ($all_data as $data) {
             $sql = self::$conexion->prepare("INSERT INTO usuario (id, email, nombre, apellidos, password, nacimiento, rol, foto) 
-            VALUES (:id, :email, :nombre, :apellidos, :password, :nacimiento, :rol, :foto)");
-            $sql->bindParam(':id', $data['id']);
-            $sql->bindParam(':email', $data['email']);
-            $sql->bindParam(':nombre', $data['nombre']);
-            $sql->bindParam(':apellidos', $data['apellidos']);
-            $sql->bindParam(':password', $data['password']);
-            $sql->bindParam(':nacimiento', $data['nacimiento']);
-            $sql->bindParam(':rol', $data['rol']);
-            $sql->bindParam(':foto', $data['foto']);
+            VALUES (DEFAULT, :email, :nombre, :apellidos, :password, :nacimiento, :rol, :foto)");
+            $sql->bindParam(':email', $data[0], PDO::PARAM_STR, 35);
+            $sql->bindParam(':nombre', $data[1], PDO::PARAM_STR, 20);
+            $sql->bindParam(':apellidos', $data[2], PDO::PARAM_STR, 25);
+            $sql->bindParam(':password', $data[3], PDO::PARAM_STR, 18);
+            $sql->bindParam(':nacimiento', $data[4], PDO::PARAM_STR, 10);
+            $sql->bindParam(':rol', $data[5], PDO::PARAM_STR, 10);
+            $sql->bindParam(':foto', $data[6], PDO::PARAM_LOB);
             $sql->execute();
         }
     }
@@ -148,7 +147,7 @@ class DB
     {
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = "INSERT INTO `tematica` (`id`, `tema`) VALUES (NULL, '$tema')";
+        $consulta = "INSERT INTO `tematica` (`id`, `tema`) VALUES (DEFAULT, '$tema')";
         if (self::$conexion->exec($consulta)) {
             return true;
         } else {
@@ -183,7 +182,7 @@ class DB
     {
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = "INSERT INTO `preguntas`(`id`, `enunciado_pregunta`, `respuesta_correcta`, `recurso`, `id_tematica`) VALUES (NULL, '$enunciado_pregunta', $id_respuesta_correcta, '$recurso', $id_tematica)";
+        $consulta = "INSERT INTO `preguntas`(`id`, `enunciado_pregunta`, `respuesta_correcta`, `recurso`, `id_tematica`) VALUES (DEFAULT, '$enunciado_pregunta', $id_respuesta_correcta, '$recurso', $id_tematica)";
         if (self::$conexion->exec($consulta)) {
             return true;
         } else {
@@ -218,11 +217,26 @@ class DB
         }
     }
 
+    public static function insertMassiveQuestions($all_data)
+    {
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
+        foreach ($all_data as $data) {
+            $sql = self::$conexion->prepare("INSERT INTO preguntas (id, enunciado_pregunta, respuesta_correcta, recurso, id_tematica)
+            VALUES (DEFAULT, :enunciado_pregunta, :respuesta_correcta, :recurso, :id_tematica)");
+            $sql->bindParam(':enunciado_pregunta', $data[0], PDO::PARAM_STR, 350);
+            $sql->bindParam(':respuesta_correcta', $data[1], PDO::PARAM_INT, 11);
+            $sql->bindParam(':recurso', $data[2], PDO::PARAM_LOB);
+            $sql->bindParam(':id_tematica', $data[3], PDO::PARAM_INT, 11);
+            $sql->execute();
+        }
+    }
+
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)
     {
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = "INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) VALUES (NULL, '$enunciado_respuesta', $id_pregunta)";
+        $consulta = "INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) VALUES (DEFAULT, '$enunciado_respuesta', $id_pregunta)";
         if (self::$conexion->exec($consulta)) {
             return true;
         } else {

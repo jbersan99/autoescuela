@@ -5,7 +5,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Validator.php";
-require_once "entities/User.php";
+require_once "entities/Preguntas.php";
 
 function csvToArray($filename = '', $delimiter = ',')
 {
@@ -28,12 +28,12 @@ function csvToArray($filename = '', $delimiter = ',')
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         if (isset($_FILES['fichero'])) {
-            move_uploaded_file($_FILES['fichero']['tmp_name'], "csv/csv_user.csv");
+            move_uploaded_file($_FILES['fichero']['tmp_name'], "csv/csv_questions.csv");
 
-            $all_data = csvToArray('csv/csv_user.csv', ",");
-            DB::insertMassiveUsers($all_data);
+            $all_data = csvToArray('csv/csv_questions.csv', ",");
+            DB::insertMassiveQuestions($all_data);
         }
-}
+    }
 }
 ?>
 
@@ -44,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta Masiva de Usuarios</title>
+    <title>Alta Masiva de Preguntas</title>
 </head>
 
 <body>
     <header>
-        <h1> Alta Masiva de Usuario</h1>
+        <h1> Alta Masiva de Preguntas</h1>
     </header>
     <div class="alta">
         <form action="#" method="post" enctype="multipart/form-data">
