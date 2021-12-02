@@ -13,7 +13,6 @@ function csvToArray($filename = '', $delimiter = ',')
         return false;
     }
 
-    $header = NULL;
     $result = array();
     if (($handle = fopen($filename, 'r')) !== FALSE) {
         while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {

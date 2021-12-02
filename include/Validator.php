@@ -38,4 +38,14 @@ class Validator
         }
     }
 
+    public function FraseValida($frase)
+    {
+        $patron_frase = "/[A-Z]/im";
+        if(preg_match($patron_frase, $frase)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

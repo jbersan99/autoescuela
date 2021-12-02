@@ -229,6 +229,12 @@ class DB
             $sql->bindParam(':recurso', $data[2], PDO::PARAM_LOB);
             $sql->bindParam(':id_tematica', $data[3], PDO::PARAM_INT, 11);
             $sql->execute();
+
+            $sql2 = self::$conexion->prepare("INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) 
+            VALUES (DEFAULT, ':enunciado_respuesta', :id_pregunta)");
+            $sql->bindParam(':enunciado_respuesta', $data[5], PDO::PARAM_STR, 350);
+            $sql->bindParam(':id_pregunta', $data[6], PDO::PARAM_INT, 11);
+            $sql2->execute();
         }
     }
 
