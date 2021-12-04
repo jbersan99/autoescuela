@@ -3,12 +3,6 @@ html{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
-img{
-    width: 250px;
-    margin-top: 20px;
-    margin-bottom: 35px;
-}
-
 h1{
     text-align: center;
 }
@@ -24,19 +18,32 @@ main{
 }
 
 input[type=text]{
-    width: 250px;
-    padding:5px; 
+    padding-right:290px; 
+    padding-bottom: 5px;
+    margin-bottom: 25px;
+}
+
+input[type=date]{
+    padding-bottom: 5px;
+}
+
+input[type=email]{
+    padding-right:290px; 
+    padding-bottom: 5px;
+    margin-bottom: 25px;
 }
 
 input[type=password]{
-    width: 250px;
-    padding:5px; 
+    padding-right:290px; 
+    padding-bottom: 5px;
+    margin-bottom: 25px;
 }
 
 input[type=submit]{
     width: 67px;
     margin-left: 197px;
     margin-top: 24px;
+    margin-bottom: 24px;
     padding:5px; 
 }
 
@@ -46,7 +53,7 @@ section{
 }
 
 .error{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -60,9 +67,9 @@ section{
 footer{
     text-align: center;
     background-color: rgb(172, 162, 162,0.5);
-    height: 120px;
-    position:absolute;
+    height: 140px;
     width: 99%;
+    position:absolute;
 }
 
 a:hover{

@@ -1,3 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Usuario</title>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/alta_usuario_css.css">
+</head>
+
+<body>
+    <header>
+        <h1> Alta Usuario</h1>
+    </header>
+    <main class="alta">
+        <form action="#" method="post" enctype="multipart/form-data">
+            <label for="email"> Email <br>
+                <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br>
+            </label>
+            <label for="nombre"> Nombre y Apellidos <br>
+                <input type="text" name="nombre" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"> <br>
+            </label>
+            <label for="password"> Contraseña <br>
+                <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>
+            </label>
+            <label for="password_confirm"> Confirmar Contraseña <br>
+                <input type="password" name="password_confirm" value="<?php echo isset($_POST['password_confirm']) ? htmlspecialchars($_POST['password_confirm']) : ''; ?>"><br>
+            </label>
+            <label for="nacimiento"> Fecha de Nacimiento <br>
+                <input type="date" name="nacimiento" value="<?php echo isset($_POST['nacimiento']) ? htmlspecialchars($_POST['nacimiento']) : ''; ?>">
+            </label>
+
+            <section>Selecciona el rol:
+
+                <input type="radio" id="rol_01" name="rol" value="Usuario" checked>
+                <label for="rol_User">Usuario</label>
+
+                <input type="radio" id="rol_01" name="rol" value="Profesor">
+                <label for="rol_Prof">Profesor</label>
+            </section>
+
+            <label for="foto"> Selecciona la imagen de perfil: <br>
+                <input type="file" class="form-control" id="image" name="image">
+                <img id="imagenPrevisualizacion" width="175px"> <br>
+                <script src="scripts/script.js"></script>
+            </label>
+
+            <input type="submit" value="Entrar" name="enviar">
+        </form>
+    </main>
+
+    <footer>
+        <hr>
+        <p>Todos los derechos reservados</p>
+        <p>Autoescuela Pepito</p>
+        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+    </footer>
+</body>
+
+</html>
+
 <?php
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -16,22 +79,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $v->Requerido('password_confirm');
         $v->Requerido('nacimiento');
         if (count($v->errores) > 0) {
-            echo $v->errores['email'] . "<br>";
-            echo $v->errores['nombre'] . "<br>";
-            echo $v->errores['password'] . "<br>";
-            echo $v->errores['password_confirm'] . "<br>";
-            echo $v->errores['nacimiento'] . "<br>";
+            echo '<br><span class="error">' . $v->errores['email'] . '</span> ';
+            echo '<span class="error">' . $v->errores['nombre'] . '</span> <br>';
+            echo '<span class="error">' . $v->errores['password'] . '</span> ';
+            echo '<span class="error">' . $v->errores['password_confirm'] . '</span> <br>';
+            echo '<span class="error">' . $v->errores['nacimiento'] . '</span> ';
             if ($_FILES["image"]["size"] == 0) {
-                echo "Introduce una fotografía para continuar";
+                echo '<span class="error">Introduce una imagen para continuar</span> <br>';
             }
         } else if ($_POST["password"] != $_POST["password_confirm"]) {
-            echo "El campo de la contraseña y confirmar contraseña deben ser iguales";
+            echo '<span class="error">El campo de la contraseña y confirmar contraseña deben ser iguales</span> <br>';
         } else if ($_FILES["image"]["size"] == 0) {
-            echo "Introduce una fotografía para continuar";
+            echo '<span class="error">Introduce una fotografía para continuar</span> <br>';
         } else if (!$v->EmailValido($_POST['email'])) {
-            echo "Introduce un email que sea valido";
+            echo '<span class="error">Introduce un email que sea valido</span> <br>';
         } else if (!$v->FraseValida($_POST['nombre'])) {
-            echo "Introduce un nombre que sea valido";
+            echo '<span class="error">Introduce un nombre que sea valido</span> <br>';
         } else {
             $email = $_POST['email'];
             $nombre = $_POST['nombre'];
@@ -48,65 +111,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($verifica) {
                     header("Location: inicio.php");
                 } else {
-                    echo ("Hubo un fallo y no se pudó dar de alta");
+                    echo '<span class="error">Hubo un fallo y no se pudó dar de alta</span> <br>';
                 }
             } else {
-                echo "El email introducido ya está registrado en la base de datos";
+                echo '<span class="error">El email introducido ya está registrado en la base de datos</span> <br>';
             }
         }
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Usuario</title>
-</head>
-
-<body>
-    <header>
-        <h1> Alta Usuario</h1>
-    </header>
-    <div class="alta">
-        <form action="#" method="post" enctype="multipart/form-data">
-            <label for="email"> Email <br>
-                <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br>
-            </label>
-            <label for="nombre"> Nombre y Apellidos <br>
-                <input type="text" name="nombre" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"> <br>
-            </label>
-            <label for="password"> Contraseña <br>
-                <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>
-            </label>
-            <label for="password_confirm"> Confirmar Contraseña <br>
-                <input type="password" name="password_confirm" value="<?php echo isset($_POST['password_confirm']) ? htmlspecialchars($_POST['password_confirm']) : ''; ?>"><br>
-            </label>
-            <label for="nacimiento"> Fecha de Nacimiento <br>
-                <input type="date" name="nacimiento" value="<?php echo isset($_POST['nacimiento']) ? htmlspecialchars($_POST['nacimiento']) : ''; ?>"><br>
-            </label>
-
-            <p>Selecciona el rol</p>
-
-            <input type="radio" id="rol_01" name="rol" value="Usuario" checked>
-            <label for="rol_User">Usuario</label>
-
-            <input type="radio" id="rol_01" name="rol" value="Profesor">
-            <label for="rol_Prof">Profesor</label> <br>
-
-            <label for="foto"> Selecciona la imagen de perfil <br>
-                <input type="file" class="form-control" id="image" name="image"><br>
-                <img id="imagenPrevisualizacion" width="150"> <br>
-                <script src="scripts/script.js"></script>
-            </label>
-
-            <input type="submit" value="Entrar" name="enviar">
-        </form>
-    </div>
-</body>
-
-</html>

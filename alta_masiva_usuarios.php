@@ -1,3 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta Masiva de Usuarios</title>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/alta_masiva_usuarios.css">
+</head>
+
+<body>
+    <header>
+        <h1> Alta Masiva de Usuario</h1>
+    </header>
+    <main class="alta">
+        <form action="#" method="post" enctype="multipart/form-data">
+            <label for="fichero">
+                <input type='file' name='fichero'> <br>
+            </label>
+            <input type="submit" value="Enviar CSV" name="enviar">
+        </form>
+    </main>
+    
+    <footer>
+        <hr>
+        <p>Todos los derechos reservados</p>
+        <p>Autoescuela Pepito</p>
+        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+    </footer>
+</body>
+
+</html>
+
 <?php
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -32,32 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $all_data = csvToArray('csv/csv_user.csv', ",");
             DB::insertMassiveUsers($all_data);
         }
-}
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta Masiva de Usuarios</title>
-</head>
-
-<body>
-    <header>
-        <h1> Alta Masiva de Usuario</h1>
-    </header>
-    <div class="alta">
-        <form action="#" method="post" enctype="multipart/form-data">
-            <label for="fichero">
-                <input type='file' name='fichero'> <br>
-            </label>
-            <input type="submit" value="Entrar" name="enviar">
-        </form>
-    </div>
-</body>
-
-</html>

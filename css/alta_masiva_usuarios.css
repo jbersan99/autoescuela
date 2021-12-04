@@ -3,12 +3,6 @@ html{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
-img{
-    width: 250px;
-    margin-top: 20px;
-    margin-bottom: 35px;
-}
-
 h1{
     text-align: center;
 }
@@ -23,30 +17,15 @@ main{
     flex-direction: column;
 }
 
-input[type=text]{
-    width: 250px;
-    padding:5px; 
-}
-
-input[type=password]{
-    width: 250px;
-    padding:5px; 
-}
-
 input[type=submit]{
-    width: 67px;
-    margin-left: 197px;
+    margin:0px auto; display:block;
+    width: 90px;
     margin-top: 24px;
     padding:5px; 
 }
 
-section{
-    margin-top: 50px;
-    margin-bottom: 45px;
-}
-
 .error{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -63,6 +42,7 @@ footer{
     height: 120px;
     position:absolute;
     width: 99%;
+    bottom:0;
 }
 
 a:hover{
