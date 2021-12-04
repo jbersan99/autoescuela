@@ -12,14 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $v = new Validator();
         $v->Requerido('email');
         $v->Requerido('nombre');
-        $v->Requerido('apellidos');
         $v->Requerido('password');
         $v->Requerido('password_confirm');
         $v->Requerido('nacimiento');
         if (count($v->errores) > 0) {
             echo $v->errores['email'] . "<br>";
             echo $v->errores['nombre'] . "<br>";
-            echo $v->errores['apellidos'] . "<br>";
             echo $v->errores['password'] . "<br>";
             echo $v->errores['password_confirm'] . "<br>";
             echo $v->errores['nacimiento'] . "<br>";
@@ -32,14 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Introduce una fotografía para continuar";
         } else if (!$v->EmailValido($_POST['email'])) {
             echo "Introduce un email que sea valido";
-        } else if (!$v->NombreValido($_POST['nombre'])) {
+        } else if (!$v->FraseValida($_POST['nombre'])) {
             echo "Introduce un nombre que sea valido";
-        } else if (!$v->NombreValido($_POST['apellidos'])) {
-            echo "Introduce un apellidos que sea valido";
         } else {
             $email = $_POST['email'];
             $nombre = $_POST['nombre'];
-            $apellidos = $_POST['apellidos'];
             $password = $_POST['password'];
             $password_confirm = $_POST['password_confirm'];
             $nacimiento = $_POST['nacimiento'];
@@ -49,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $imgContenido = base64_encode($imgContenido);
             $existe_email = DB::existsUser($email);
             if ($existe_email == "No existe") {
-                $verifica = DB::insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $imgContenido);
+                $verifica = DB::insertUser($email, $nombre, $password, $nacimiento, $rol, $imgContenido);
                 if ($verifica) {
                     header("Location: inicio.php");
                 } else {
@@ -82,11 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="email"> Email <br>
                 <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br>
             </label>
-            <label for="nombre"> Nombre <br>
+            <label for="nombre"> Nombre y Apellidos <br>
                 <input type="text" name="nombre" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"> <br>
-            </label>
-            <label for="apellidos"> Apellidos <br>
-                <input type="text" name="apellidos" value="<?php echo isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : ''; ?>"> <br>
             </label>
             <label for="password"> Contraseña <br>
                 <input type="password" name="password" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>"><br>

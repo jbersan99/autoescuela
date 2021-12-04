@@ -42,12 +42,11 @@ class DB
         return $user;
     }
 
-    public static function insertUser($email, $nombre, $apellidos, $password, $nacimiento, $rol, $foto)
+    public static function insertUser($email, $nombre, $password, $nacimiento, $rol, $foto)
     {
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //$consulta = "INSERT INTO `usuario` (NULL,'$email','$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto', 0)";
-        $consulta = "INSERT INTO `usuario` (`id`, `email`, `nombre`, `apellidos`, `password`, `nacimiento`, `rol`, `foto`) VALUES (DEFAULT, '$email', '$nombre', '$apellidos', '$password', '$nacimiento','$rol','$foto')";
+        $consulta = "INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `nacimiento`, `rol`, `foto`) VALUES (DEFAULT, '$email', '$nombre', '$password', '$nacimiento','$rol','$foto')";
         if (self::$conexion->exec($consulta)) {
             return true;
         } else {
@@ -101,15 +100,14 @@ class DB
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
         foreach ($all_data as $data) {
-            $sql = self::$conexion->prepare("INSERT INTO usuario (id, email, nombre, apellidos, password, nacimiento, rol, foto) 
-            VALUES (DEFAULT, :email, :nombre, :apellidos, :password, :nacimiento, :rol, :foto)");
+            $sql = self::$conexion->prepare("INSERT INTO usuario (id, email, nombre, password, nacimiento, rol, foto) 
+            VALUES (DEFAULT, :email, :nombre, :password, :nacimiento, :rol, :foto)");
             $sql->bindParam(':email', $data[0], PDO::PARAM_STR, 35);
             $sql->bindParam(':nombre', $data[1], PDO::PARAM_STR, 20);
-            $sql->bindParam(':apellidos', $data[2], PDO::PARAM_STR, 25);
-            $sql->bindParam(':password', $data[3], PDO::PARAM_STR, 18);
-            $sql->bindParam(':nacimiento', $data[4], PDO::PARAM_STR, 10);
-            $sql->bindParam(':rol', $data[5], PDO::PARAM_STR, 10);
-            $sql->bindParam(':foto', $data[6], PDO::PARAM_LOB);
+            $sql->bindParam(':password', $data[2], PDO::PARAM_STR, 18);
+            $sql->bindParam(':nacimiento', $data[3], PDO::PARAM_STR, 10);
+            $sql->bindParam(':rol', $data[4], PDO::PARAM_STR, 10);
+            $sql->bindParam(':foto', $data[5], PDO::PARAM_LOB);
             $sql->execute();
         }
     }
@@ -222,69 +220,68 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("SELECT id FROM preguntas ORDER BY id DESC LIMIT 0, 1");
         $numero = $consulta->fetch();
-        return $numero[0];
+        return $numero[0]+1;
     }
 
     public static function insertMassiveQuestions($all_data)
     {
         self::conectarPDO();
         self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
-        $a = 0;
         foreach ($all_data as $data) {
             $sql = self::$conexion->prepare("INSERT INTO preguntas (id, enunciado_pregunta, respuesta_correcta, recurso, id_tematica)
             VALUES (DEFAULT, :enunciado_pregunta, :respuesta_correcta, :recurso, :id_tematica)");
             $sql->bindParam(':enunciado_pregunta', $data[0], PDO::PARAM_STR, 350);
-            $sql->bindParam(':respuesta_correcta', $a, PDO::PARAM_INT, 11);
+            $sql->bindParam(':respuesta_correcta', $data[1], PDO::PARAM_INT, 11);
             $sql->bindParam(':recurso', $data[2], PDO::PARAM_LOB);
             $sql->bindParam(':id_tematica',$data[3], PDO::PARAM_INT, 11);
             $sql->execute();
 
             $last_question = self::getLastQuestion();
 
-            $sql2 = self::$conexion->prepare("INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) 
+            $sql2 = self::$conexion->prepare("INSERT INTO respuesta (id, enunciado_respuesta, id_pregunta) 
             VALUES (DEFAULT, ':enunciado_respuesta', :id_pregunta)");
             $sql2->bindParam(':enunciado_respuesta', $data[4], PDO::PARAM_STR, 350);
             $sql2->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
             $sql2->execute();
             if($data[1] == 1){
-                $select_01 = self::$conexion->query("SELECT id FROM respuestas ORDER BY id DESC LIMIT 0, 1");
-                $numero = $select_01->fetch();
-                $update_01 = self::$conexion->query("UPDATE pregunta SET respuesta_correcta=$numero WHERE id=$last_question");
+                $select_01 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
+                $numero = $select_01->fetch(PDO::FETCH_ASSOC);
+                $update_01 = self::$conexion->query("UPDATE preguntas SET respuesta_correcta=$numero[id] WHERE id=$last_question");
                 self::$conexion->query($update_01);
             }
-            $sql3 = self::$conexion->prepare("INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) 
+            $sql3 = self::$conexion->prepare("INSERT INTO respuesta (id, enunciado_respuesta, id_pregunta) 
             VALUES (DEFAULT, ':enunciado_respuesta', :id_pregunta)");
             $sql3->bindParam(':enunciado_respuesta', $data[5], PDO::PARAM_STR, 350);
             $sql3->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
             $sql3->execute();
             if($data[1] == 2){
-                $select_02 = self::$conexion->query("SELECT id FROM respuestas ORDER BY id DESC LIMIT 0, 1");
-                $numero = $select_02->fetch();
-                $update_02 = self::$conexion->query("UPDATE pregunta SET respuesta_correcta=$numero WHERE id=$last_question");
+                $select_02 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
+                $numero = $select_02->fetch(PDO::FETCH_ASSOC);
+                $update_02 = self::$conexion->query("UPDATE preguntas SET respuesta_correcta=$numero[id] WHERE id=$last_question");
                 self::$conexion->query($update_02);
             }
 
-            $sql4 = self::$conexion->prepare("INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) 
+            $sql4 = self::$conexion->prepare("INSERT INTO  respuesta (id, enunciado_respuesta, id_pregunta) 
             VALUES (DEFAULT, ':enunciado_respuesta', :id_pregunta)");
             $sql4->bindParam(':enunciado_respuesta', $data[6], PDO::PARAM_STR, 350);
             $sql4->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
             $sql4->execute();
             if($data[1] == 3){
-                $select_03 = self::$conexion->query("SELECT id FROM respuestas ORDER BY id DESC LIMIT 0, 1");
-                $numero = $select_03->fetch();
-                $update_03 = self::$conexion->query("UPDATE pregunta SET respuesta_correcta=$numero WHERE id=$last_question");
+                $select_03 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
+                $numero = $select_03->fetch(PDO::FETCH_ASSOC);
+                $update_03 = self::$conexion->query("UPDATE preguntas SET respuesta_correcta=$numero[id] WHERE id=$last_question");
                 self::$conexion->query($update_03);
             }
 
-            $sql5 = self::$conexion->prepare("INSERT INTO `respuesta`(`id`, `enunciado_respuesta`, `id_pregunta`) 
+            $sql5 = self::$conexion->prepare("INSERT INTO respuesta (id, enunciado_respuesta, id_pregunta) 
             VALUES (DEFAULT, ':enunciado_respuesta', :id_pregunta)");
             $sql5->bindParam(':enunciado_respuesta', $data[7], PDO::PARAM_STR, 350);
             $sql5->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
             $sql5->execute();
             if($data[1] == 4){
-                $select_04 = self::$conexion->query("SELECT id FROM respuestas ORDER BY id DESC LIMIT 0, 1");
-                $numero = $select_04->fetch();
-                $update_04 = self::$conexion->query("UPDATE pregunta SET respuesta_correcta=$numero WHERE id=$last_question");
+                $select_04 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
+                $numero = $select_04->fetch(PDO::FETCH_ASSOC);
+                $update_04 = self::$conexion->query("UPDATE preguntas SET respuesta_correcta=$numero[id] WHERE id=$last_question");
                 self::$conexion->query($update_04);
             }
         }
