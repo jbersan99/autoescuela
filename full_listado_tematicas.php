@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Preguntas</title>
+    <title>Listado de Tematicas</title>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="css/listado_preguntas.css">
 
@@ -52,15 +52,14 @@
 
 <body>
     <header>
-        <h1> Listado de Preguntas </h1>
+        <h1> Listado de Tematicas </h1>
     </header>
     <div>
         <!-- Table -->
-        <table id='preguntasTabla' class='display dataTable'>
+        <table id='tematicasTabla' class='display dataTable'>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Enunciado</th>
                     <th>Tematica</th>
                     <th>Acciones</th>
                 </tr>
@@ -72,21 +71,18 @@
     <!-- Script -->
     <script>
         $(document).ready(function() {
-            $('#preguntasTabla').DataTable({
+            $('#tematicasTabla').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'scripts/ajax_preguntas.php'
+                    'url': 'scripts/ajax_tematicas.php'
                 },
                 'columns': [{
                         data: 'id'
                     },
                     {
-                        data: 'enunciado_pregunta'
-                    },
-                    {
-                        data: 'id_tematica'
+                        data: 'tema'
                     },
                 ]
             });

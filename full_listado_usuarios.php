@@ -1,22 +1,63 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Listado de Usuarios</title>
-        <!-- Datatable CSS -->
-        <link href='DataTables/datatables.min.css' rel='stylesheet' type='text/css'>
+<!DOCTYPE html>
+<html lang="es">
 
-        <!-- jQuery Library -->
-        <script src="jquery-3.3.1.min.js"></script>
-        
-        <!-- Datatable JS -->
-        <script src="DataTables/datatables.min.js"></script>
-        
-    </head>
-    <body >
-        <div >
-            <!-- Table -->
-            <table id='usuariosTabla' class='display dataTable'>
-                <thead>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Usuarios</title>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/listado_usuario.css">
+
+    <!-- Datatable CSS -->
+    <link href='DataTables/datatables.min.css' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <!-- jQuery Library -->
+    <script src="jquery-3.3.1.min.js"></script>
+
+    <!-- Datatable JS -->
+    <script src="DataTables/datatables.min.js"></script>
+
+    <style>
+        html {
+            background-image: url(img/webb.png);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            min-height: 100%;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        header {
+            font-family: 'Oswald';
+            font-size: 22px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: rgb(172, 162, 162, 0.5);
+            position: absolute;
+            bottom: 0;
+            padding: 5px;
+            width: 98%;
+        }
+
+        a:hover {
+            color: rgb(153, 125, 158);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1> Listado de Usuarios </h1>
+    </header>
+    <div>
+        <!-- Table -->
+        <table id='usuariosTabla' class='display dataTable'>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Alumnos</th>
@@ -26,30 +67,43 @@
                     <th>Confirmados</th>
                     <th>Acciones</th>
                 </tr>
-                </thead>
-                
-            </table>
-        </div>
-        
-        <!-- Script -->
-        <script>
-        $(document).ready(function(){
+            </thead>
+
+        </table>
+    </div>
+
+    <!-- Script -->
+    <script>
+        $(document).ready(function() {
             $('#usuariosTabla').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':'scripts/ajax_usuarios.php'
+                    'url': 'scripts/ajax_usuarios.php'
                 },
-                'columns': [
-                    { data: 'id' },
-                    { data: 'nombre' },
-                    { data: 'email' },
-                    { data: 'rol' },
+                'columns': [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'nombre'
+                    },
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'rol'
+                    },
                 ]
             });
         });
-        </script>
-    </body>
+    </script>
+    <footer>
+        <hr>
+        <p>Todos los derechos reservados</p>
+        <p>Autoescuela Pepito</p>
+        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+    </footer>
+</body>
 
 </html>

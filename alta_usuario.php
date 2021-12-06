@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alta de Usuario</title>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
-    <link rel="stylesheet" href="css/alta_usuario_css.css">
+    <link rel="stylesheet" href="css/alta_usuario.css">
 </head>
 
 <body>
