@@ -36,10 +36,8 @@ $numero_preguntas = DB::getAllQuestions();
                     <?php
 
                     foreach ($tematicas as $tematica) {
-                        $linea = "";
-                        $linea = $linea . '<option value="' . $tematica->getId() . '">' . $tematica->getTema() . '</option>';
+                        echo '<option value="' . $tematica->getId() . '">' . $tematica->getTema() . '</option>';
                     }
-                    echo $linea;
                     ?>
                 </select>
                 <br>

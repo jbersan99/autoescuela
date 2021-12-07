@@ -70,6 +70,13 @@ require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
 
+use PHPMailer\PHPMailer\PHPMailer;
+
+require "vendor/autoload.php";
+
+$last_user = DB::getLastUser();
+$last_user++;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         $v = new Validator();
@@ -107,9 +114,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $imgContenido = base64_encode($imgContenido);
             $existe_email = DB::existsUser($email);
             if ($existe_email == "No existe") {
-                $verifica = DB::insertUser($email, $nombre, $password, $nacimiento, $rol, $imgContenido);
+                $verifica = DB::insertUser($email, $nombre, $password, $nacimiento, $rol, $imgContenido, "no");
                 if ($verifica) {
-                    header("Location: inicio.php");
+                    $mail = new PHPMailer();
+                    $mail->IsSMTP();
+                    // cambiar a 0 para no ver mensajes de error
+                    $mail->SMTPDebug  = 2;
+                    $mail->SMTPAuth   = true;
+                    $mail->SMTPSecure = "tls";
+                    $mail->Host       = "smtp.gmail.com";
+                    $mail->Port       = 587;
+                    // introducir usuario de google
+                    $mail->Username   = "jose.prueba.ftz@gmail.com";
+                    // introducir clave
+                    $mail->Password   = "jlftz99_";
+                    $mail->SetFrom('jose.prueba.ftz@gmail.com', 'Test');
+                    // asunto
+                    $mail->Subject    = "Email Verificacion del Perfil";
+                    // cuerpo
+                    /* $path = 'pngegg.jpeg';
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $data = file_get_contents($path);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                    */
+                    
+                    $mail->MsgHTML("<h1> Esto es una prueba </h1>
+                    <a href='http://localhost/autoescuela/crear_password.php?id=$last_user'> Restablece tu contraseña </a>");
+                    // adjuntos
+                    /* $mail->AddEmbeddedImage('pngegg.jpeg', 'pngegg');
+                    $mail->IsHTML(true);
+                    $mail->Body = "<p><img src=\"cid:pngegg\" /></p><p>" . utf8_decode('' . "hola") . "</p>"; */
+                    // destinatario
+                    $address = "pepelubjxd@gmail.com";
+                    $mail->AddAddress($address, "Email Verificación Perfil");
+                    // enviar
+                    $resul = $mail->Send();
+                    if ($resul) {
+                        echo "Enviado";
+                    } else {
+                       echo "No se pudo mandar el correo";
+                    }
                 } else {
                     echo '<span class="error">Hubo un fallo y no se pudó dar de alta</span> <br>';
                 }

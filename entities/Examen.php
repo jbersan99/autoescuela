@@ -4,21 +4,19 @@
         protected $id;
         protected $descripcion;
         protected $duracion;
-        protected $numero_preguntas;
-        protected $activo;
+        protected $id_preguntas;
 
         public function getId(){return $this->id;}
         public function getDesripcion(){return $this->descripcion;}
         public function getDuracion(){return $this->duracion;}
-        public function getNumero_Preguntas(){return $this->numero_preguntas;}
+        public function getId_Preguntas(){return $this->id_preguntas;}
         public function getActivo(){return $this->activo;}
 
         public function __construct($row){
             $this->id = $row['id'];
             $this->descripcion = $row['descripcion'];
             $this->duracion = $row['duracion'];
-            $this->numero_preguntas = $row['numero_preguntas'];
-            $this->activo = $row['activo'];
+            $this->id_preguntas = $row['id_preguntas'];
         }
 
     }
