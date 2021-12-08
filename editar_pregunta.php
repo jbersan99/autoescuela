@@ -7,6 +7,9 @@ require_once "include/Sesion.php";
 require_once "entities/Tematica.php";
 require_once "include/Validator.php";
 
+$id = $_GET['id'];
+$pregunta = DB::getQuestionbyId($id);
+
 $tematicas = DB::getThematics();
 $numero_respuestas = DB::getAllAnswers();
 $numero_preguntas = DB::getAllQuestions();
@@ -20,14 +23,14 @@ $numero_preguntas = DB::getAllQuestions();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de una Pregunta</title>
+    <title>Editar una Pregunta</title>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="css/alta_pregunta.css">
 </head>
 
 <body>
     <header>
-        <h1> Alta Pregunta </h1>
+        <h1> Editar Pregunta </h1>
     </header>
     <main>
         <form action="#" method="post" enctype="multipart/form-data">
@@ -43,22 +46,22 @@ $numero_preguntas = DB::getAllQuestions();
                 <br>
             </label>
             <label for="enunciado"> Enunciado <br>
-                <textarea name="enunciado" cols="30" rows="10" value="<?php echo isset($_POST['enunciado']) ? htmlspecialchars($_POST['enunciado']) : ''; ?>"></textarea> <br>
+                <textarea name="enunciado" cols="30" rows="10" value="<?php echo $pregunta->getEnunciado_pregunta()?>"></textarea> <br>
             </label>
             <label for="opcion1"> Opcion 1 <br>
-                <input type="text" name="respuesta_1" value="<?php echo isset($_POST['respuesta_1']) ? htmlspecialchars($_POST['respuesta_1']) : ''; ?>">
+                <input type="text" name="respuesta_1" value="">
                 <input type="radio" name="correcta" value="1"> Correcta<br>
             </label>
             <label for="opcion1"> Opcion 2 <br>
-                <input type="text" name="respuesta_2" value="<?php echo isset($_POST['respuesta_2']) ? htmlspecialchars($_POST['respuesta_2']) : ''; ?>">
+                <input type="text" name="respuesta_2" value="">
                 <input type="radio" name="correcta" value="2"> Correcta<br>
             </label>
             <label for="opcion1"> Opcion 3 <br>
-                <input type="text" name="respuesta_3" value="<?php echo isset($_POST['respuesta_3']) ? htmlspecialchars($_POST['respuesta_3']) : ''; ?>">
+                <input type="text" name="respuesta_3" value="">
                 <input type="radio" name="correcta" value="3"> Correcta<br>
             </label>
             <label for="opcion1"> Opcion 4 <br>
-                <input type="text" name="respuesta_4" value="<?php echo isset($_POST['respuesta_4']) ? htmlspecialchars($_POST['respuesta_4']) : ''; ?>">
+                <input type="text" name="respuesta_4" value="">
                 <input type="radio" name="correcta" value="4"> Correcta<br>
             </label>
             <label for="foto"> Selecciona la imagen de la pregunta <br>
@@ -101,40 +104,41 @@ $numero_preguntas = DB::getAllQuestions();
                     $image = $_FILES['image']['tmp_name'];
                     $imgContenido = file_get_contents($image);
                     $imgContenido = base64_encode($imgContenido);
-                    if (isset($_POST['correcta'])) {
-                    switch ($_POST['correcta']) {
-                        case 1:
-                            DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-                            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 1, $imgContenido, $_POST["tematica"]);
-                            break;
-                        case 2:
-                            DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-                            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 2, $imgContenido, $_POST["tematica"]);
-                            break;
-                        case 3:
-                            DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-                            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 3, $imgContenido, $_POST["tematica"]);
-                            break;
-                        case 4:
-                            DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_2'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
-                            DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
-                            DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 4, $imgContenido, $_POST["tematica"]);
-                            break;
+                    if(isset($_POST['correcta'])){
+                        switch ($_POST['correcta']) {
+                            case 1:
+                                DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_2'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
+                                DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 1, $imgContenido, $_POST["tematica"]);
+                                break;
+                            case 2:
+                                DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_2'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
+                                DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 2, $imgContenido, $_POST["tematica"]);
+                                break;
+                            case 3:
+                                DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_2'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
+                                DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 3, $imgContenido, $_POST["tematica"]);
+                                break;
+                            case 4:
+                                DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_2'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
+                                DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
+                                DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 4, $imgContenido, $_POST["tematica"]);
+                                break;
+                        }
+                    }else{
+                        echo '<span class="error">Elige una opcion correcta</span> ';
                     }
-                }else{
-                    echo '<span class="error">Elige una opcion correcta</span> ';
-                }
+                    
                 }
             }
         }

@@ -19,7 +19,7 @@
         <img src="img/avatar.png" alt="logo">
         <form action="#" method="post">
             <label for="email"> Email <br>
-                <input type="text" name="email"><br><br>                
+                <input type="text" name="email"><br><br>
                 <span class="error_email"></span>
             </label>
             <label for="password"> Contraseña <br>
@@ -31,7 +31,45 @@
             <a>¿Has olvidado tu contraseña?</a>
         </section>
     </main>
+    <?php
 
+    error_reporting(E_ALL ^ E_NOTICE);
+
+    include "include/DB.php";
+    require_once "include/Login.php";
+    require_once "include/Sesion.php";
+    require_once "include/Validator.php";
+    require_once "entities/User.php";
+
+    if (isset($_POST['enviar'])) {
+        $v = new Validator();
+        $v->Requerido('email');
+        $v->Requerido('password');
+        if (count($v->errores) > 0) {
+            echo '<span class="error">' . $v->errores['email'] . '</span> <br>';
+            echo '<span class="error">' . $v->errores['password'] . '</span>';
+        } else if (!$v->EmailValido($_POST['email'])) {
+            echo '<span class="error"> Introduce un email que sea valido </span>';
+        } else {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $logueado = Login::doLogin($email, $password, false);
+            if ($logueado != "Las credenciales son invalidas") {
+                $user = DB::getUser($email, $password);
+                if ($user->getConfirmado() == "si") {
+                    Login::UserisLogged();
+                    Sesion::escribir('usuario', DB::getUser($email, $password));
+                    header("Location: inicio.php");
+                } else {
+                    echo '<span class="error"> Tu usuario no ha sido confirmado aún, comprueba tu correo electronico </span>';
+                }
+            } else {
+                echo '<span class="error"> Las credenciales son introducidas son invalidas </span>';
+            }
+        }
+    }
+
+    ?>
     <footer>
         <hr>
         <p>Todos los derechos reservados</p>
@@ -41,38 +79,3 @@
 </body>
 
 </html>
-
-<?php
-
-error_reporting(E_ALL ^ E_NOTICE);
-
-include "include/DB.php";
-require_once "include/Login.php";
-require_once "include/Sesion.php";
-require_once "include/Validator.php";
-require_once "entities/User.php";
-
-if (isset($_POST['enviar'])) {
-    $v = new Validator();
-    $v->Requerido('email');
-    $v->Requerido('password');
-    if (count($v->errores) > 0) {
-        echo '<span class="error">'.$v->errores['email'].'</span> <br>';
-        echo '<span class="error">'.$v->errores['password'].'</span>';
-    } else if (!$v->EmailValido($_POST['email'])) {
-        echo '<span class="error"> Introduce un email que sea valido </span>';
-    } else {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $logueado = Login::doLogin($email, $password, false);
-        if ($logueado != "Las credenciales son invalidas") {
-            Login::UserisLogged();
-            Sesion::escribir('usuario', DB::getUser($email, $password));
-            header("Location: inicio.php");
-        } else {
-            echo '<span class="error"> Las credenciales son introducidas son invalidas </span>';
-        }
-    }
-}
-
-?>

@@ -62,7 +62,6 @@
                     <th>ID</th>
                     <th>Enunciado</th>
                     <th>Tematica</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -89,6 +88,17 @@
                         data: 'id_tematica'
                     },
                 ]
+            });
+
+            $(document).on('click', '#preguntasTabla tr', function() {
+                var table = $('#preguntasTabla').DataTable();
+                var id = table.row(this).data().id;
+                let editar = confirm("¿Deseas editar la pregunta con id " + id + "?");
+
+                if(editar){
+                    window.open("http://localhost/autoescuela/editar_pregunta?id="+ id, "_self");
+                }
+               
             });
         });
     </script>

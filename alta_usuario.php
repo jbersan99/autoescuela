@@ -73,10 +73,6 @@ require "vendor/autoload.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-
-$last_user = DB::getLastUser();
-$last_user++;
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         $v = new Validator();
@@ -115,6 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $existe_email = DB::existsUser($email);
             if ($existe_email == "No existe") {
                 $verifica = DB::insertUser($email, $nombre, $password, $nacimiento, $rol, $imgContenido, "no");
+                $last_user = DB::getLastUser();
                 if ($verifica) {
                     $mail = new PHPMailer();
                     $mail->IsSMTP();
@@ -137,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $data = file_get_contents($path);
                     $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                     */
-                    
+
                     $mail->MsgHTML("<h1> Esto es una prueba </h1>
                     <a href='http://localhost/autoescuela/crear_password.php?id=$last_user'> Restablece tu contraseña </a>");
                     // adjuntos
@@ -152,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($resul) {
                         echo "Enviado";
                     } else {
-                       echo "No se pudo mandar el correo";
+                        echo "No se pudo mandar el correo";
                     }
                 } else {
                     echo '<span class="error">Hubo un fallo y no se pudó dar de alta</span> <br>';

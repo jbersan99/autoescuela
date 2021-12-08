@@ -109,8 +109,6 @@
 
                 if(editar){
                     window.open("http://localhost/autoescuela/editar_usuarios?id="+ id, "_self");
-                }else{
-                    alert("Cancelar edición.");
                 }
                
             });

@@ -109,6 +109,15 @@ class DB
         return $numero['COUNT(id)'];
     }
 
+    public static function deleteUser($email)
+    {
+        self::conectarPDO();
+        $consulta = "DELETE from usuario where email=?";
+        self::$conexion->prepare($consulta)->execute([$email]);
+
+        return true;
+    }
+
     public static function insertMassiveUsers($all_data)
     {
         self::conectarPDO();
@@ -131,7 +140,12 @@ class DB
         self::conectarPDO();
         $consulta = self::$conexion->query("SELECT id FROM usuario ORDER BY id DESC LIMIT 0, 1");
         $numero = $consulta->fetch();
-        return $numero[0];
+        if($numero == 0){
+            return false;
+        }else{
+            return $numero[0];
+        }
+        
     }
 
     public static function updateUser($id,$nombre, $password, $nacimiento, $rol, $foto)
@@ -218,6 +232,16 @@ class DB
         $stmt = self::$conexion->query("SELECT COUNT(id) FROM tematica");
         $numero = $stmt->fetch();
         return $numero['COUNT(id)'];
+    }
+
+    public static function updateThematic($id,$tema)
+    {
+        self::conectarPDO();
+
+        $sql = "UPDATE tematica SET tema=? WHERE id=?";
+        self::$conexion->prepare($sql)->execute([$tema,$id]);
+
+        return true;
     }
 
     public static function insertQuestion($enunciado_pregunta, $id_respuesta_correcta, $recurso, $id_tematica): int
@@ -331,6 +355,28 @@ class DB
         }
     }
 
+    public static function getQuestionbyId($id): Preguntas
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from preguntas where id = $id");
+
+        while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $pregunta = new Preguntas($pregunta_info);
+        }
+
+        return $pregunta;
+    }
+
+    public static function updateQuestion($id,$enunciado_pregunta,$id_respuesta_correcta, $recurso, $id_tematica)
+    {
+        self::conectarPDO();
+
+        $sql = "UPDATE preguntas SET enunciado_pregunta=?, respuesta_correcta=?, recurso=?, id_tematica=? WHERE id=?";
+        self::$conexion->prepare($sql)->execute([$enunciado_pregunta,$id_respuesta_correcta,$recurso,$id_tematica,$id]);
+
+        return true;
+    }
+
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)
     {
         self::conectarPDO();
@@ -342,7 +388,7 @@ class DB
             return false;
         }
     }
-
+    
     public static function getAllAnswers(): int
     {
         self::conectarPDO();

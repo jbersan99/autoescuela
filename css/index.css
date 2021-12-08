@@ -1,8 +1,6 @@
 html {
     background-image: url(../img/webb.png);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    min-height: 100%;
-    position: relative;
 }
 
 img {
@@ -61,11 +59,11 @@ section {
 }
 
 footer {
+    margin-top: 50px;
     text-align: center;
     background-color: rgb(172, 162, 162, 0.5);
     height: 120px;
     width: 99%;
-    position: absolute;
 }
 
 a:hover {

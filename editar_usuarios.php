@@ -22,6 +22,7 @@ $user = DB::getUserbyId($id);
     <title>Alta de Usuario</title>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="css/editar_user.css">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 </head>
 
 <body>
@@ -61,7 +62,7 @@ $user = DB::getUserbyId($id);
             </label>
 
             <input type="submit" value="Editar" name="enviar">
-            
+            <input type="submit" value="Eliminar" name="eliminar">
         </form>
     </main>
 
@@ -113,22 +114,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 var_dump("Hubo un problema");
             }
         }
-    } else if (isset($_POST['eliminar'])) {
+    } else if(isset($_POST['eliminar'])){
+        echo "Hola";
     }
 }
 ?>
-
-<script src="javascript">
-    $(document).ready(function() {
-    $(document).on('click', '#eliminar', function() {
-        let editar = confirm("¿Deseas editar el usuario con id?");
+<script>
+$(document).ready(function() {
+    $("input").click(function() {
+        let editar = confirm("¿Deseas eliminar el usuario?");
 
         if (editar) {
-            alert("Hol edición.");
+            <?php
+                /* DB::deleteUser($user->getId());
+                header("Location: full_listado_usuarios.php"); */
+            ?>
+            
         } else {
             alert("Cancelar edición.");
         }
-
     });
 });
 </script>

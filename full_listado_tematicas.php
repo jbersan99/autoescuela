@@ -61,7 +61,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Tematica</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -85,6 +84,17 @@
                         data: 'tema'
                     },
                 ]
+            });
+
+            $(document).on('click', '#tematicasTabla tr', function() {
+                var table = $('#tematicasTabla').DataTable();
+                var id = table.row(this).data().id;
+                let editar = confirm("¿Deseas editar la tematica con id " + id + "?");
+
+                if(editar){
+                    window.open("http://localhost/autoescuela/editar_tematica?id="+ id, "_self");
+                }
+               
             });
         });
     </script>

@@ -16,7 +16,7 @@
     </header>
     <main class="pass">
         <form action="#" method="post">
-            <label for="new_pass"> Nueva Contrasaeña <br>
+            <label for="new_pass"> Nueva Contraseña <br>
                 <input type="password" name="new_pass_01"><br>
             </label>
             <label for="new_pass"> Nueva Contrasaeña de Nuevo <br>
@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pass = $_POST['new_pass_01'];
             $confirmado = "si";
             DB::updatePass($pass, $id_user, $confirmado);
+            header("Location: inicio.php");
         }
     }
 }
