@@ -69,10 +69,10 @@ include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Validator.php";
 require_once "entities/User.php";
+require "vendor/autoload.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-require "vendor/autoload.php";
 
 $last_user = DB::getLastUser();
 $last_user++;

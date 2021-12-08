@@ -18,6 +18,7 @@ class DB
 
     public static function thereisUser($email, $password)
     {
+        self::conectarPDO();
         $consulta = self::$conexion->query("select COUNT(id) from usuario where email ='$email' and password='$password'");
         $numero = $consulta->fetch(PDO::FETCH_ASSOC);
         if ($numero['COUNT(id)'] > 0) {
@@ -29,6 +30,7 @@ class DB
 
     public static function getUser($email, $password): User
     {
+        self::conectarPDO();
         $consulta = self::$conexion->query("select * from usuario where email ='$email' and password='$password'");
 
         while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
@@ -37,6 +39,18 @@ class DB
             } else {
                 $user = "No hay usuario";
             }
+        }
+
+        return $user;
+    }
+
+    public static function getUserbyId($id): User
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from usuario where id = $id");
+
+        while ($user_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User($user_info);
         }
 
         return $user;
@@ -120,6 +134,16 @@ class DB
         return $numero[0];
     }
 
+    public static function updateUser($id,$nombre, $password, $nacimiento, $rol, $foto)
+    {
+        self::conectarPDO();
+
+        $sql = "UPDATE usuario SET nombre=?, password=?, nacimiento=?, rol=?, foto=? WHERE id=?";
+        self::$conexion->prepare($sql)->execute([$nombre,$password,$nacimiento,$rol,$foto, $id]);
+
+        return true;
+    }
+
     public static function updatePass($password, $id, $confirmado)
     {
         self::conectarPDO();
@@ -131,7 +155,7 @@ class DB
         self::$conexion->prepare($sql)->execute([$confirmado, $id]);
         return true;
     }
-    
+
     public static function getThematic($id): Tematica
     {
         $consulta = self::$conexion->query("select * from tematica where id = $id");

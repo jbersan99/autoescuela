@@ -64,14 +64,12 @@
                     <th>Email</th>
                     <th>Rol</th>
                     <th>Examenes Realizados</th>
-                    <th>Confirmados</th>
-                    <th>Acciones</th>
+                    <th>Confirmado</th>
                 </tr>
             </thead>
 
         </table>
     </div>
-
     <!-- Script -->
     <script>
         $(document).ready(function() {
@@ -94,7 +92,27 @@
                     {
                         data: 'rol'
                     },
+                    {
+                        data: 'realizados'
+                    },
+                    {
+                        data: 'confirmado'
+                    },
                 ]
+            });
+
+
+            $(document).on('click', '#usuariosTabla tr', function() {
+                var table = $('#usuariosTabla').DataTable();
+                var id = table.row(this).data().id;
+                let editar = confirm("¿Deseas editar el usuario con id " + id + "?");
+
+                if(editar){
+                    window.open("http://localhost/autoescuela/editar_usuarios?id="+ id, "_self");
+                }else{
+                    alert("Cancelar edición.");
+                }
+               
             });
         });
     </script>

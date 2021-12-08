@@ -67,6 +67,8 @@ foreach ($empRecords as $row) {
         "email" => $row['email'],
         "nombre" => $row['nombre'],
         "rol" => $row['rol'],
+        "realizados" => "Ninguno",
+        "confirmado" => $row['confirmado'],
     );
 }
 
