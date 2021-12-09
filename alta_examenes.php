@@ -4,7 +4,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 include "include/DB.php";
 require_once "include/Sesion.php";
-require_once "entities/Preguntas.php";
+require_once "include/Preguntas.php";
 require_once "include/Validator.php";
 
 $preguntas = DB::getQuestions();
@@ -19,6 +19,8 @@ $preguntas = DB::getQuestions();
     <title>Alta Examenes</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="stylesheet" href="css/alta_examen.css">
     <style>
         #sortable1,
         #sortable2 {
@@ -38,11 +40,12 @@ $preguntas = DB::getQuestions();
         #sortable2 li {
             margin: 5px;
             padding: 5px;
-            font-size: 1.2em;
-            width: 290px;
+            font-size: 1.1em;
+            width: 450px;
             height: 50px;
             text-align: center;
-            background-color: grey;
+            background-color:rgba(184, 167, 167, 0.842);
+            
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -65,30 +68,44 @@ $preguntas = DB::getQuestions();
 </head>
 
 <body>
-    <form action="#" method="post" name="form" id="exam_form">
-        <label for="descripcion"> Descripción <br>
-            <input type="text" name="descripcion" value="<?php echo isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : ''; ?>"></input> <br>
-        </label>
-        <label for="duracion"> Duracion <br>
-            <input type="number" name="duracion" value="<?php echo isset($_POST['duracion']) ? htmlspecialchars($_POST['duracion']) : ''; ?>"></input> <br>
-        </label>
-        <ul id="sortable1" class="droptrue">
-            <?php
+    <header>
+        <h1>Alta de Examenes</h1>
+    </header>
+    <main>
+        <form action="#" method="post" name="form" id="exam_form">
+            <label for="descripcion"> Descripción <br>
+                <input type="text" name="descripcion" value="<?php echo isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : ''; ?>"></input> <br>
+            </label>
+            <label for="duracion"> Duracion <br>
+                <input type="number" name="duracion" value="<?php echo isset($_POST['duracion']) ? htmlspecialchars($_POST['duracion']) : ''; ?>"></input> <br>
+            </label>
+            <ul id="sortable1" class="droptrue">
+                <?php
 
-            foreach ($preguntas as $pregunta) {
-                echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . '</li>';
-            }
+                foreach ($preguntas as $pregunta) {
+                    $id_tematica = DB::getThematicbyId_Question($pregunta->getId());
+                    $tematica = DB::getThematic($id_tematica);
+                    echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . "<br>" . "<b> Tematica: </b>" . $tematica->getTema() . '</li>';
+                }
 
-            ?>
-        </ul>
+                ?>
+            </ul>
 
-        <ul id="sortable2" class="dropfalse">
+            <ul id="sortable2" class="dropfalse">
 
-        </ul>
-        <br style="clear:both">
+            </ul>
+            <br style="clear:both">
 
-        <input type="submit" value="Enviar" name="enviar" id="send">
-    </form>
+            <input type="submit" value="Enviar" name="enviar" id="send">
+        </form>
+    </main>
+
+    <footer>
+        <hr>
+        <p>Todos los derechos reservados</p>
+        <p>Autoescuela Pepito</p>
+        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+    </footer>
 </body>
 
 </html>
@@ -119,11 +136,12 @@ $preguntas = DB::getQuestions();
                             contentType: false,
                             processData: false,
                             success: function(response) {
-                                console.log(response);
                                 if (response.success == "1") {
-                                    alert("Funciona");
+                                    alert("El examen fue agregado correctamente")
+                                    window.location.replace("http://localhost/autoescuela/full_listado_examenes.php");
+                                    
                                 } else {
-                                    alert('Invalid Credentials!');
+                                    alert('El examen no se pudó agregar a la Base de Datos');
                                 }
                             }
                         });

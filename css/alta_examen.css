@@ -1,0 +1,62 @@
+html {
+    background-image: url(../img/webb.png);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+header {
+    font-family: 'Oswald';
+    font-size: 22px;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+input[type=text] {
+    padding-right: 490px;
+    padding-bottom: 5px;
+    margin-bottom: 25px;
+}
+
+input[type=number] {
+    padding-bottom: 5px;
+    margin-bottom: 25px;
+}
+
+input[type=submit] {
+    width: 25%;
+    height: 40px;
+    margin: 25px;
+}
+
+.error {
+    font-size: 17px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    color: red;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+footer {
+    text-align: center;
+    background-color: rgb(172, 162, 162, 0.5);
+    height: 140px;
+    width: 99%;
+    position: relative;
+}
+
+a:hover {
+    color: rgb(153, 125, 158);
+    font-size: large;
+}

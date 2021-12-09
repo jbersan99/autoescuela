@@ -1,5 +1,5 @@
 <?php
-require_once "./entities/User.php";
+require_once "User.php";
 require_once "Sesion.php";
 require_once "DB.php";
 class Login

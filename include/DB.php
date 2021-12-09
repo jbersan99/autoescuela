@@ -1,8 +1,9 @@
 <?php
-require_once "../entities/User.php";
-require_once "../entities/Preguntas.php";
-require_once "../entities/Examen.php";
-require_once "../entities/Tematica.php";
+
+require_once "User.php";
+require_once "Preguntas.php";
+require_once "Examen.php";
+require_once "Tematica.php";
 
 class DB
 {
@@ -241,6 +242,14 @@ class DB
         self::$conexion->prepare($sql)->execute([$tema, $id]);
 
         return true;
+    }
+
+    public static function getThematicbyId_Question($id): int
+    {
+        $consulta = self::$conexion->query("SELECT id_tematica FROM preguntas WHERE id = $id");
+
+        $numero = $consulta->fetch();
+        return $numero[0];
     }
 
     public static function insertQuestion($enunciado_pregunta, $id_respuesta_correcta, $recurso, $id_tematica): int

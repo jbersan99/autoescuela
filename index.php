@@ -39,7 +39,7 @@
     require_once "include/Login.php";
     require_once "include/Sesion.php";
     require_once "include/Validator.php";
-    require_once "entities/User.php";
+    require_once "include/User.php";
 
     if (isset($_POST['enviar'])) {
         $v = new Validator();

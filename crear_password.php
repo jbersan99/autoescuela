@@ -43,7 +43,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 include "include/DB.php";
 require_once "include/Sesion.php";
-require_once "entities/Tematica.php";
+require_once "include/Tematica.php";
 require_once "include/Validator.php";
 
 $id_user = $_GET['id'];

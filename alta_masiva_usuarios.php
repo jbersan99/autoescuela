@@ -40,7 +40,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Validator.php";
-require_once "entities/User.php";
+require_once "include/User.php";
 
 function csvToArray($filename = '', $delimiter = ',')
 {
