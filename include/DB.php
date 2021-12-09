@@ -1,8 +1,8 @@
 <?php
-require_once "./entities/User.php";
-require_once "./entities/Preguntas.php";
-require_once "./entities/Examen.php";
-require_once "./entities/Tematica.php";
+require_once "../entities/User.php";
+require_once "../entities/Preguntas.php";
+require_once "../entities/Examen.php";
+require_once "../entities/Tematica.php";
 
 class DB
 {
