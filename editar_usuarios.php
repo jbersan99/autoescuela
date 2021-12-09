@@ -62,9 +62,63 @@ $user = DB::getUserbyId($id);
             </label>
 
             <input type="submit" value="Editar" name="enviar">
-            <input type="submit" value="Eliminar" name="eliminar">
+            <input type="submit" value="Eliminar Usuario" name="eliminar"><br>
+            ¿Estas seguro de que quieres eliminar el usuario? <input type="checkbox" name="seguro"> <br> <br>
+
+
         </form>
     </main>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['enviar'])) {
+            $v = new Validator();
+            $v->Requerido('nombre');
+            $v->Requerido('password');
+            $v->Requerido('password_confirm');
+            $v->Requerido('nacimiento');
+            if (count($v->errores) > 0) {
+                echo '<span class="error">' . $v->errores['nombre'] . '</span> <br>';
+                echo '<span class="error">' . $v->errores['password'] . '</span> ';
+                echo '<span class="error">' . $v->errores['password_confirm'] . '</span> <br>';
+                echo '<span class="error">' . $v->errores['nacimiento'] . '</span> ';
+                if ($_FILES["image"]["size"] == 0) {
+                    echo '<span class="error">Introduce una imagen para continuar</span> <br>';
+                }
+            } else if ($_POST["password"] != $_POST["password_confirm"]) {
+                echo '<span class="error">El campo de la contraseña y confirmar contraseña deben ser iguales</span> <br>';
+            } else if ($_FILES["image"]["size"] == 0) {
+                echo '<span class="error">Introduce una fotografía para continuar</span> <br>';
+            } else if (!$v->FraseValida($_POST['nombre'])) {
+                echo '<span class="error">Introduce un nombre que sea valido</span> <br>';
+            } else {
+                $nombre = $_POST['nombre'];
+                $password = $_POST['password'];
+                $password_confirm = $_POST['password_confirm'];
+                $nacimiento = $_POST['nacimiento'];
+                $rol = $_POST['rol'];
+                $image = $_FILES['image']['tmp_name'];
+                $imgContenido = file_get_contents($image);
+                $imgContenido = base64_encode($imgContenido);
+                $verifica = DB::updateUser($user->getId(), $nombre, $password, $nacimiento, $rol, $imgContenido);
+                if ($verifica) {
+                    header("Location: full_listado_usuarios.php");
+                } else {
+                    var_dump("Hubo un problema");
+                }
+            }
+        } else if (isset($_POST['eliminar'])) {
+            $seguro = $_POST['seguro'];
+
+            if ($seguro == "on") {
+                DB::deleteUser($user->getEmail());
+                header("Location: full_listado_usuarios.php");
+            } else {
+                echo '<script>alert("Confirma que quieres borrar el usuario")</script>';
+            }
+        }
+    }
+    ?>
 
     <footer>
         <hr>
@@ -76,63 +130,3 @@ $user = DB::getUserbyId($id);
 
 </html>
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['enviar'])) {
-        $v = new Validator();
-        $v->Requerido('nombre');
-        $v->Requerido('password');
-        $v->Requerido('password_confirm');
-        $v->Requerido('nacimiento');
-        if (count($v->errores) > 0) {
-            echo '<span class="error">' . $v->errores['nombre'] . '</span> <br>';
-            echo '<span class="error">' . $v->errores['password'] . '</span> ';
-            echo '<span class="error">' . $v->errores['password_confirm'] . '</span> <br>';
-            echo '<span class="error">' . $v->errores['nacimiento'] . '</span> ';
-            if ($_FILES["image"]["size"] == 0) {
-                echo '<span class="error">Introduce una imagen para continuar</span> <br>';
-            }
-        } else if ($_POST["password"] != $_POST["password_confirm"]) {
-            echo '<span class="error">El campo de la contraseña y confirmar contraseña deben ser iguales</span> <br>';
-        } else if ($_FILES["image"]["size"] == 0) {
-            echo '<span class="error">Introduce una fotografía para continuar</span> <br>';
-        } else if (!$v->FraseValida($_POST['nombre'])) {
-            echo '<span class="error">Introduce un nombre que sea valido</span> <br>';
-        } else {
-            $nombre = $_POST['nombre'];
-            $password = $_POST['password'];
-            $password_confirm = $_POST['password_confirm'];
-            $nacimiento = $_POST['nacimiento'];
-            $rol = $_POST['rol'];
-            $image = $_FILES['image']['tmp_name'];
-            $imgContenido = file_get_contents($image);
-            $imgContenido = base64_encode($imgContenido);
-            $verifica = DB::updateUser($user->getId(), $nombre, $password, $nacimiento, $rol, $imgContenido);
-            if ($verifica) {
-                header("Location: full_listado_usuarios.php");
-            } else {
-                var_dump("Hubo un problema");
-            }
-        }
-    } else if(isset($_POST['eliminar'])){
-        echo "Hola";
-    }
-}
-?>
-<script>
-$(document).ready(function() {
-    $("input").click(function() {
-        let editar = confirm("¿Deseas eliminar el usuario?");
-
-        if (editar) {
-            <?php
-                /* DB::deleteUser($user->getId());
-                header("Location: full_listado_usuarios.php"); */
-            ?>
-            
-        } else {
-            alert("Cancelar edición.");
-        }
-    });
-});
-</script>

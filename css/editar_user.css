@@ -69,9 +69,8 @@ footer {
     text-align: center;
     background-color: rgb(172, 162, 162, 0.5);
     height: 120px;
-    position: absolute;
-    width: 99%;
-    bottom: 0;
+    width: 100%;
+    margin-top: 25px;
 }
 
 a:hover {

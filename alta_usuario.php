@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail = new PHPMailer();
                     $mail->IsSMTP();
                     // cambiar a 0 para no ver mensajes de error
-                    $mail->SMTPDebug  = 2;
+                    $mail->SMTPDebug  = 0;
                     $mail->SMTPAuth   = true;
                     $mail->SMTPSecure = "tls";
                     $mail->Host       = "smtp.gmail.com";

@@ -42,6 +42,7 @@ $preguntas = DB::getQuestions();
             width: 290px;
             height: 50px;
             text-align: center;
+            background-color: grey;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -65,23 +66,19 @@ $preguntas = DB::getQuestions();
 
 <body>
     <form action="#" method="post">
-        <div ondrop="drop(event)" ondragover="allowDrop(event)">
             <ul id="sortable1" class="droptrue">
                 <?php
 
                 foreach ($preguntas as $pregunta) {
-                    echo '<li class="" id=' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . '</li>';
+                    echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . '</li>';
                 }
 
                 ?>
             </ul>
-        </div>
 
-        <div ondrop="drop(event)" ondragover="allowDrop(event)">
             <ul id="sortable2" class="dropfalse">
 
             </ul>
-        </div>
         <br style="clear:both">
 
         <input type="submit" value="Enviar" name="enviar">
