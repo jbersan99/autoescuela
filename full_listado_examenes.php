@@ -9,24 +9,24 @@ if (!Sesion::existe('usuario')) {
     if ($usuario->getRol() == "Usuario") {
         echo " <section id='menu'>";
         echo "<ul>";
-        echo " <li><a href=''>Historico de Examenes</a></li>";
-        echo " <li><a href=''>Realizar Examen</a></li>";
-        echo " <li><a href=''>Examen Aleatorio</a></li>";
+        echo " <li><a href=''>Historico de Examenes <i class='fas fa-history'></i></a></li>";
+        echo " <li><a href=''>Realizar Examen <i class='fas fa-edit'></i></a></li>";
+        echo " <li><a href=''>Examen Aleatorio <i class='fas fa-random'></i></a></li>";
         echo "</ul>";
         echo "</section> ";
     } else {
         echo " <section id='menu'>";
         echo "<ul>";
-        echo " <li><a href='full_listado_usuarios.php'>Usuarios</a></li>";
-        echo " <li><a href='full_listado_tematicas.php'>Tematicas</a></li>";
-        echo " <li><a href='full_listado_preguntas.php'>Preguntas</a></li>";
-        echo " <li><a href='full_listado_examenes.php'>Examenes</a></li>";
+        echo " <li><a href='full_listado_usuarios.php'>Usuarios <i class='fas fa-users'></i></a></li>";
+        echo " <li><a href='full_listado_tematicas.php'>Tematicas <i class='fas fa-folder-open'></i></a></li>";
+        echo " <li><a href='full_listado_preguntas.php'>Preguntas <i class='fas fa-question'></i></a></li>";
+        echo " <li><a href='full_listado_examenes.php'>Examenes <i class='fas fa-book-dead'></i></a> </li>";
         echo "</ul>";
         echo "</section> ";
     }
 }
 
-if(isset($_POST['enviar'])) {
+if (isset($_POST['enviar'])) {
     header("Location: index.php");
     Sesion::destruir();
 }
@@ -51,6 +51,7 @@ if(isset($_POST['enviar'])) {
 
     <!-- Datatable JS -->
     <script src="DataTables/datatables.min.js"></script>
+    <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
 
     <style>
         html {
@@ -60,7 +61,7 @@ if(isset($_POST['enviar'])) {
             position: relative;
         }
 
-        form{
+        form {
             margin: 15px;
         }
 
@@ -75,7 +76,9 @@ if(isset($_POST['enviar'])) {
 
         footer {
             text-align: center;
-            background-color: rgb(172, 162, 162, 0.5);
+            color:white;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
             position: absolute;
             bottom: 0;
             padding: 5px;
@@ -152,21 +155,37 @@ if(isset($_POST['enviar'])) {
         #menu ul li:hover>ul {
             display: block;
         }
+
+        input[type=submit] {
+            color: white;
+            width: 100px;
+            padding: 5px;
+            opacity: 0.6;
+            background-color: rgb(48, 48, 209);
+        }
+
+        input[type=submit]:hover {
+            color: white;
+            width: 100px;
+            padding: 5px;
+            opacity: 1;
+            background-color: rgb(48, 48, 209);
+        }
     </style>
 </head>
 
 <body>
     <header>
         <h1> Listado de Examenes </h1>
-        <?php 
+        <?php
 
-        if($usuario->getRol() == "Profesor"){
-            echo "<a href='alta_examenes.php' class='button'>Alta Examen</a>";
+        if ($usuario->getRol() == "Profesor") {
+            echo "<a href='alta_examenes.php' class='button'>  Alta Examen <i class='far fa-plus-square'></i>  </a>";
         }
 
         ?>
-        
-        <form method="post"><input type="submit" name="enviar" value="Cerrar Sesion"></form>
+
+        <form method="post"></i><input type="submit" name="enviar" value="Cerrar Sesion"> <i class='fas fa-sign-out-alt'></form>
     </header>
 
     <div>
@@ -229,7 +248,7 @@ if(isset($_POST['enviar'])) {
         <hr>
         <p>Todos los derechos reservados</p>
         <p>Autoescuela Pepito</p>
-        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+        <a href="twitter.com">Twitter <i class="fab fa-twitter"></i></a> <a href="facebook.com">Facebook <i class="fab fa-facebook-square"></i></a> <a href="instagram.com">Instagram <i class="fab fa-instagram-square"></i></a>
     </footer>
 </body>
 

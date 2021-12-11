@@ -1,3 +1,13 @@
+<?php
+
+require_once "include/Sesion.php";
+Sesion::iniciar();
+if (Sesion::existe('usuario')) {
+    header("Location: full_listado_examenes.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,16 +17,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Autoescuela FTZ</title>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
     <header>
-        <h1>Login Autoescuela</h1>
+        <img src="img/logo.png" alt="logo">
     </header>
 
     <main class="login">
-        <img src="img/avatar.png" alt="logo">
+
         <form action="#" method="post">
             <label for="email"> Email <br>
                 <input type="text" name="email"><br><br>
@@ -37,7 +48,6 @@
 
     include "include/DB.php";
     require_once "include/Login.php";
-    require_once "include/Sesion.php";
     require_once "include/Validator.php";
     require_once "include/User.php";
 
@@ -58,7 +68,6 @@
                 $user = DB::getUser($email, $password);
                 if ($user->getConfirmado() == "si") {
                     Login::UserisLogged();
-                    Sesion::iniciar();
                     Sesion::escribir('usuario', DB::getUser($email, $password));
                     header("Location: full_listado_examenes.php");
                 } else {
@@ -75,7 +84,7 @@
         <hr>
         <p>Todos los derechos reservados</p>
         <p>Autoescuela Pepito</p>
-        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+        <a href="twitter.com">Twitter <i class="fab fa-twitter"></i></a> <a href="facebook.com">Facebook <i class="fab fa-facebook-square"></i></a> <a href="instagram.com">Instagram <i class="fab fa-instagram-square"></i></a>
     </footer>
 </body>
 

@@ -29,6 +29,7 @@ if (!Sesion::existe('usuario')) {
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/alta_examen.css">
     <style>
         #sortable1,
@@ -118,7 +119,7 @@ if (!Sesion::existe('usuario')) {
         <hr>
         <p>Todos los derechos reservados</p>
         <p>Autoescuela Pepito</p>
-        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+        <a href="twitter.com">Twitter <i class="fab fa-twitter"></i></a> <a href="facebook.com">Facebook <i class="fab fa-facebook-square"></i></a> <a href="instagram.com">Instagram <i class="fab fa-instagram-square"></i></a>
     </footer>
 </body>
 

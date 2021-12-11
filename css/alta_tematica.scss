@@ -1,0 +1,71 @@
+$hover_color:rgb(201, 13, 235);
+$red:rgb(247, 1, 1);
+$bgcolor:rgb(202, 184, 184);
+$image:url(../img/webb.png);
+html {
+    background-image: $image;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-height: 100%;
+    position: relative;
+}
+
+header {
+    font-family: 'Oswald';
+    font-size: 22px;
+    h1 {
+        text-shadow: 2px 2px $red;
+        text-align: center;
+    }
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    input[type=text] {
+        padding-right: 290px;
+        padding-bottom: 5px;
+        margin-bottom: 25px;
+    }
+    input[type=submit] {
+        color: white;
+        width: 67px;
+        margin-left: 197px;
+        margin-top: 24px;
+        padding: 5px;
+        opacity: 0.6;
+        background-color: rgb(48, 48, 209);
+    }
+}
+
+section {
+    margin-top: 50px;
+    margin-bottom: 45px;
+}
+
+.error {
+    font-size: 17px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    color: $red;
+    bottom: 0;
+    width: 100%;
+}
+
+footer {
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: $bgcolor;
+}
+
+a:hover {
+    color: $hover_color;
+    font-size: large;
+}
