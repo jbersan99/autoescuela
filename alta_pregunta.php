@@ -6,10 +6,21 @@ include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Tematica.php";
 require_once "include/Validator.php";
+require_once "include/User.php";
 
 $tematicas = DB::getThematics();
 $numero_respuestas = DB::getAllAnswers();
 $numero_preguntas = DB::getAllQuestions();
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
 
 ?>
 
@@ -109,6 +120,7 @@ $numero_preguntas = DB::getAllQuestions();
                             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
                             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
                             DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 1, $imgContenido, $_POST["tematica"]);
+                            header("Location: full_listado_preguntas.php");
                             break;
                         case 2:
                             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
@@ -116,6 +128,7 @@ $numero_preguntas = DB::getAllQuestions();
                             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
                             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
                             DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 2, $imgContenido, $_POST["tematica"]);
+                            header("Location: full_listado_preguntas.php");
                             break;
                         case 3:
                             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
@@ -123,6 +136,7 @@ $numero_preguntas = DB::getAllQuestions();
                             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
                             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
                             DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 3, $imgContenido, $_POST["tematica"]);
+                            header("Location: full_listado_preguntas.php");
                             break;
                         case 4:
                             DB::insertAnswer($_POST['respuesta_1'], $numero_preguntas + 1);
@@ -130,6 +144,7 @@ $numero_preguntas = DB::getAllQuestions();
                             DB::insertAnswer($_POST['respuesta_3'], $numero_preguntas + 1);
                             DB::insertAnswer($_POST['respuesta_4'], $numero_preguntas + 1);
                             DB::insertQuestion($_POST['enunciado'], $numero_respuestas + 4, $imgContenido, $_POST["tematica"]);
+                            header("Location: full_listado_preguntas.php");
                             break;
                     }
                 }else{

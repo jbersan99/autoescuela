@@ -1,6 +1,22 @@
+<?php
+
+require_once "include/User.php";
+require_once "include/Sesion.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -147,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // enviar
                     $resul = $mail->Send();
                     if ($resul) {
-                        echo "Enviado";
+                        header("Location: full_listado_usuarios.php");
                     } else {
                         echo "No se pudo mandar el correo";
                     }

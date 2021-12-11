@@ -252,6 +252,25 @@ class DB
         return $numero[0];
     }
 
+    public static function deleteThematic($id)
+    {
+        self::conectarPDO();
+        $consulta = "DELETE from tematica where id=?";
+        self::$conexion->prepare($consulta)->execute([$id]);
+        return true;
+    }
+
+    public static function insertMassiveThematic($all_data)
+    {
+        self::conectarPDO();
+        self::$conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, 0);
+        foreach ($all_data as $data) {
+            $sql = self::$conexion->prepare("INSERT INTO tematica (id,tema) VALUES (DEFAULT,:tema)");
+            $sql->bindParam(':tema', $data[0], PDO::PARAM_STR, 40);
+            $sql->execute();
+        }
+    }
+
     public static function insertQuestion($enunciado_pregunta, $id_respuesta_correcta, $recurso, $id_tematica): int
     {
         self::conectarPDO();
@@ -394,6 +413,15 @@ class DB
         return true;
     }
 
+    public static function deleteQuestion($id)
+    {
+        self::conectarPDO();
+        $consulta = "DELETE from preguntas where id=?";
+        self::$conexion->prepare($consulta)->execute([$id]);
+        DB::deleteAnswer($id);
+        return true;
+    }
+
     public static function insertAnswer($enunciado_respuesta, $id_pregunta)
     {
         self::conectarPDO();
@@ -413,6 +441,15 @@ class DB
         $stmt = self::$conexion->query("SELECT COUNT(id) FROM respuesta");
         $numero = $stmt->fetch();
         return $numero['COUNT(id)'];
+    }
+
+    public static function deleteAnswer($id)
+    {
+        self::conectarPDO();
+        $consulta = "DELETE from respuesta where id_pregunta=?";
+        self::$conexion->prepare($consulta)->execute([$id]);
+
+        return true;
     }
 
     public static function insertExam($descripcion, $duracion, $id_preguntas)

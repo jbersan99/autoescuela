@@ -58,8 +58,9 @@
                 $user = DB::getUser($email, $password);
                 if ($user->getConfirmado() == "si") {
                     Login::UserisLogged();
+                    Sesion::iniciar();
                     Sesion::escribir('usuario', DB::getUser($email, $password));
-                    header("Location: inicio.php");
+                    header("Location: full_listado_examenes.php");
                 } else {
                     echo '<span class="error"> Tu usuario no ha sido confirmado aún, comprueba tu correo electronico </span>';
                 }

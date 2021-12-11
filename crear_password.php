@@ -1,3 +1,25 @@
+<?php
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+
+include "include/DB.php";
+require_once "include/Sesion.php";
+require_once "include/Tematica.php";
+require_once "include/Validator.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -37,15 +59,6 @@
 </html>
 
 <?php
-
-error_reporting(E_ALL ^ E_NOTICE);
-
-
-include "include/DB.php";
-require_once "include/Sesion.php";
-require_once "include/Tematica.php";
-require_once "include/Validator.php";
-
 $id_user = $_GET['id'];
 var_dump($id_user);
 
@@ -63,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pass = $_POST['new_pass_01'];
             $confirmado = "si";
             DB::updatePass($pass, $id_user, $confirmado);
-            header("Location: inicio.php");
+            header("Location: index.php");
         }
     }
 }

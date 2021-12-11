@@ -7,6 +7,19 @@ require_once "include/Sesion.php";
 require_once "include/Tematica.php";
 require_once "include/Validator.php";
 
+require_once "include/Sesion.php";
+require_once "include/User.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+
 $id = $_GET['id'];
 $pregunta = DB::getQuestionbyId($id);
 
@@ -70,6 +83,8 @@ $numero_preguntas = DB::getAllQuestions();
                 <script src="scripts/script.js"></script>
             </label><br>
             <input type="submit" value="Enviar" name="enviar">
+            <input type="submit" value="Eliminar Pregunta" name="eliminar"><br>
+            ¿Estas seguro de que quieres eliminar la pregunta? <input type="checkbox" name="seguro"> <br> <br>
 
         </form>
         <?php
@@ -112,6 +127,7 @@ $numero_preguntas = DB::getAllQuestions();
                                 DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
                                 DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
                                 DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 1, $imgContenido, $_POST["tematica"]);
+                                header("Location: full_listado_preguntas.php");
                                 break;
                             case 2:
                                 DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
@@ -119,6 +135,7 @@ $numero_preguntas = DB::getAllQuestions();
                                 DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
                                 DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
                                 DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 2, $imgContenido, $_POST["tematica"]);
+                                header("Location: full_listado_preguntas.php");
                                 break;
                             case 3:
                                 DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
@@ -126,6 +143,7 @@ $numero_preguntas = DB::getAllQuestions();
                                 DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
                                 DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
                                 DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 3, $imgContenido, $_POST["tematica"]);
+                                header("Location: full_listado_preguntas.php");
                                 break;
                             case 4:
                                 DB::insertAnswer($_POST['respuesta_1'], $pregunta->getId());
@@ -133,12 +151,22 @@ $numero_preguntas = DB::getAllQuestions();
                                 DB::insertAnswer($_POST['respuesta_3'], $pregunta->getId());
                                 DB::insertAnswer($_POST['respuesta_4'], $pregunta->getId());
                                 DB::updateQuestion($pregunta->getId(),$_POST['enunciado'], $numero_respuestas + 4, $imgContenido, $_POST["tematica"]);
+                                header("Location: full_listado_preguntas.php");
                                 break;
                         }
                     }else{
                         echo '<span class="error">Elige una opcion correcta</span> ';
                     }
                     
+                }
+            } else if (isset($_POST['eliminar'])) {
+                $seguro = $_POST['seguro'];
+    
+                if ($seguro == "on") {
+                    DB::deleteQuestion($id);
+                    header("Location: full_listado_preguntas.php");
+                } else {
+                    echo '<script>alert("Confirma que quieres borrar la pregunta")</script>';
                 }
             }
         }

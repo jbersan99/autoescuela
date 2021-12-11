@@ -1,6 +1,8 @@
 html {
     background-image: url(../img/webb.png);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-height: 100%;
+    position: relative;
 }
 
 h1 {
@@ -19,20 +21,21 @@ main {
 }
 
 input[type=text] {
-    padding-right: 490px;
-    padding-bottom: 5px;
-    margin-bottom: 25px;
-}
-
-input[type=number] {
+    padding-right: 290px;
     padding-bottom: 5px;
     margin-bottom: 25px;
 }
 
 input[type=submit] {
-    width: 25%;
-    height: 40px;
-    margin: 25px;
+    width: 127px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 5px;
+}
+
+section {
+    margin-top: 50px;
+    margin-bottom: 45px;
 }
 
 .error {
@@ -45,7 +48,6 @@ input[type=submit] {
     color: red;
     bottom: 0;
     width: 100%;
-    margin-bottom: 5px;
 }
 
 footer {

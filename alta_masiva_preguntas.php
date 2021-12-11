@@ -1,3 +1,24 @@
+<?php
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+include "include/DB.php";
+require_once "include/Sesion.php";
+require_once "include/Validator.php";
+require_once "include/Preguntas.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,18 +43,18 @@
             <input type="submit" value="Entrar" name="enviar">
         </form>
     </main>
+
+    <footer>
+        <hr>
+        <p>Todos los derechos reservados</p>
+        <p>Autoescuela Pepito</p>
+        <a href="twitter.com">Twitter</a> <a href="facebook.com">Facebook</a> <a href="instagram.com">Instagram</a>
+    </footer>
 </body>
 
 </html>
 
 <?php
-
-error_reporting(E_ALL ^ E_NOTICE);
-
-include "include/DB.php";
-require_once "include/Sesion.php";
-require_once "include/Validator.php";
-require_once "include/Preguntas.php";
 
 function csvToArray($filename = '', $delimiter = ',')
 {

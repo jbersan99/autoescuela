@@ -16,6 +16,7 @@ if (!Sesion::existe('usuario')) {
         header("Location: full_listado_examenes.php");
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +33,7 @@ if (!Sesion::existe('usuario')) {
 
 <body>
     <header>
-        <h1> Alta Masiva de Usuario</h1>
+        <h1> Alta Masiva de Tematicas</h1>
     </header>
     <main class="alta">
         <form action="#" method="post" enctype="multipart/form-data">
@@ -55,12 +56,7 @@ if (!Sesion::existe('usuario')) {
 
 <?php
 
-error_reporting(E_ALL ^ E_NOTICE);
 
-include "include/DB.php";
-require_once "include/Sesion.php";
-require_once "include/Validator.php";
-require_once "include/User.php";
 
 function csvToArray($filename = '', $delimiter = ',')
 {
@@ -82,11 +78,11 @@ function csvToArray($filename = '', $delimiter = ',')
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['enviar'])) {
         if (isset($_FILES['fichero'])) {
-            move_uploaded_file($_FILES['fichero']['tmp_name'], "csv/csv_user.csv");
+            move_uploaded_file($_FILES['fichero']['tmp_name'], "csv/csv_thematic.csv");
 
-            $all_data = csvToArray('csv/csv_user.csv', ",");
-            DB::insertMassiveUsers($all_data);
-            header("Location: full_listado_usuarios.php");
+            $all_data = csvToArray('csv/csv_thematic.csv', ",");
+            DB::insertMassiveThematic($all_data);
+            header("Location: full_listado_tematicas.php");
         }
     }
 }

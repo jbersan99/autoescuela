@@ -6,9 +6,18 @@ include "include/DB.php";
 require_once "include/Sesion.php";
 require_once "include/Preguntas.php";
 require_once "include/Validator.php";
+require_once "include/User.php";
 
 $preguntas = DB::getQuestions();
-
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+} else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -83,9 +92,14 @@ $preguntas = DB::getQuestions();
                 <?php
 
                 foreach ($preguntas as $pregunta) {
-                    $id_tematica = DB::getThematicbyId_Question($pregunta->getId());
-                    $tematica = DB::getThematic($id_tematica);
-                    echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . "<br>" . "<b> Tematica: </b>" . $tematica->getTema() . '</li>';
+                    if(!$pregunta == "No hay preguntas"){
+                        $id_tematica = DB::getThematicbyId_Question($pregunta->getId());
+                        $tematica = DB::getThematic($id_tematica);
+                        echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . "<br>" . "<b> Tematica: </b>" . $tematica->getTema() . '</li>';
+                    }else{
+                        echo '<li> No hay preguntas </li>';
+                    }
+                    
                 }
 
                 ?>

@@ -3,9 +3,21 @@
 error_reporting(E_ALL ^ E_NOTICE);
 
 include "include/DB.php";
-require_once "include/Sesion.php";
 require_once "include/Validator.php";
+
+require_once "include/Sesion.php";
 require_once "include/User.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+
 
 $id = $_GET['id'];
 $user = DB::getUserbyId($id);

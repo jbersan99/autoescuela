@@ -1,3 +1,19 @@
+<?php
+
+require_once "include/User.php";
+require_once "include/Sesion.php";
+
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+}else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -55,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($existe_tematica == "No existe") {
                 $verificar = DB::insertThematic($tematica);
                 if ($verificar) {
-                    header("Location: inicio.php");
+                    header("Location: full_listado_tematicas.php");
                 } else {
                     echo "Hubo un problema introduciendo la nueva tematica";
                 }

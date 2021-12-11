@@ -1,3 +1,30 @@
+<?php
+require_once "include/Sesion.php";
+require_once "include/User.php";
+Sesion::iniciar();
+if (!Sesion::existe('usuario')) {
+    header("Location: index.php");
+} else {
+    $usuario = Sesion::leer('usuario');
+    if ($usuario->getRol() == "Usuario") {
+        header("Location: full_listado_examenes.php");
+    } else {
+        echo " <section id='menu'>";
+        echo "<ul>";
+        echo " <li><a href='full_listado_usuarios.php'>Usuarios</a></li>";
+        echo " <li><a href='full_listado_tematicas.php'>Tematicas</a></li>";
+        echo " <li><a href='full_listado_preguntas.php'>Preguntas</a></li>";
+        echo " <li><a href='full_listado_examenes.php'>Examenes</a></li>";
+        echo "</ul>";
+        echo "</section> ";
+    }
+}
+
+if(isset($_POST['enviar'])) {
+    header("Location: index.php");
+    Sesion::destruir();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,6 +53,10 @@
             position: relative;
         }
 
+        form{
+            margin: 15px;
+        }
+
         h1 {
             text-align: center;
         }
@@ -35,6 +66,10 @@
             font-size: 22px;
         }
 
+        section{
+            margin: 30px;
+        }
+        
         footer {
             text-align: center;
             background-color: rgb(172, 162, 162, 0.5);
@@ -44,8 +79,67 @@
             width: 98%;
         }
 
-        a:hover {
-            color: rgb(153, 125, 158);
+        a{
+            color: brown;
+        }
+
+        a:hover{
+            color: black;
+        }
+
+        a:visited{
+            color: black; 
+        }
+
+        #menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #menu ul a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 15px;
+            padding: 10px;
+            font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #menu ul li {
+            position: relative;
+            float: left;
+            margin: 0;
+            padding: 0;
+        }
+
+        #menu ul li:hover {
+            background: #5b78a7;
+        }
+
+        #menu ul ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding: 0;
+        }
+
+        #menu ul ul li {
+            float: none;
+            width: 150px
+        }
+
+        #menu ul ul a {
+            line-height: 120%;
+            padding: 10px 15px;
+        }
+
+        #menu ul li:hover>ul {
+            display: block;
         }
     </style>
 </head>
@@ -53,6 +147,9 @@
 <body>
     <header>
         <h1> Listado de Usuarios </h1>
+        <a href="alta_usuario.php" class="button">Alta Usuario</a>
+        <a href="alta_masiva_usuarios.php" class="button">Alta masiva de Usuarios</a>
+        <form method="post"><input type="submit" name="enviar" value="Cerrar Sesion"></form>
     </header>
     <div>
         <!-- Table -->
@@ -107,10 +204,10 @@
                 var id = table.row(this).data().id;
                 let editar = confirm("¿Deseas editar el usuario con id " + id + "?");
 
-                if(editar){
-                    window.open("http://localhost/autoescuela/editar_usuarios?id="+ id, "_self");
+                if (editar) {
+                    window.open("http://localhost/autoescuela/editar_usuarios?id=" + id, "_self");
                 }
-               
+
             });
         });
     </script>
