@@ -77,20 +77,21 @@ if (isset($_POST['enviar'])) {
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
             position: absolute;
             bottom: 0;
+            color:white;
             padding: 5px;
             width: 98%;
         }
 
+        footer a{
+            color:white;
+        }
+
         a {
-            color: brown;
+            color: black;
         }
 
         a:hover {
-            color: black;
-        }
-
-        a:visited {
-            color: black;
+            color: indianred;
         }
 
         #menu ul {

@@ -74,11 +74,8 @@ if (isset($_POST['enviar'])) {
             position: absolute;
             bottom: 0;
             padding: 5px;
+            color:white;
             width: 98%;
-        }
-
-        a:hover {
-            color: rgb(153, 125, 158);
         }
 
         section {
@@ -86,15 +83,15 @@ if (isset($_POST['enviar'])) {
         }
 
         a {
-            color: brown;
+            color: black;
         }
 
         a:hover {
-            color: black;
+            color: indianred;
         }
 
-        a:visited {
-            color: black;
+        footer a{
+            color:white;
         }
 
         #menu ul {

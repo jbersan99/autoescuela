@@ -28,7 +28,7 @@ main {
 
 main input[type=submit] {
   color: white;
-  width: 67px;
+  width: 100px;
   margin-left: 197px;
   margin-top: 24px;
   padding: 5px;
@@ -62,7 +62,14 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #cab8b8;
+  color: white;
+  background: #020024;
+  background: -webkit-gradient(linear, left top, right top, from(#020024), color-stop(35%, #090979), to(#00d4ff));
+  background: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
+}
+
+a {
+  color: indianred;
 }
 
 a:hover {

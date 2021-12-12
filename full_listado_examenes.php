@@ -53,12 +53,10 @@ if (isset($_POST['enviar'])) {
     <script src="DataTables/datatables.min.js"></script>
     <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
 
-    <style>
-        html {
+    <style>  
+        div {
             background-image: url(img/webb.png);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            min-height: 100%;
-            position: relative;
         }
 
         form {
@@ -75,18 +73,16 @@ if (isset($_POST['enviar'])) {
         }
 
         footer {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
             text-align: center;
-            color:white;
+            color: white;
             background: rgb(2, 0, 36);
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
             position: absolute;
             bottom: 0;
+            color: white;
             padding: 5px;
             width: 98%;
-        }
-
-        a:hover {
-            color: rgb(153, 125, 158);
         }
 
         section {
@@ -94,15 +90,15 @@ if (isset($_POST['enviar'])) {
         }
 
         a {
-            color: brown;
+            color: black;
         }
 
         a:hover {
-            color: black;
+            color: indianred;
         }
 
-        a:visited {
-            color: black;
+        footer a {
+            color: white;
         }
 
         #menu ul {

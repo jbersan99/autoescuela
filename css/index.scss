@@ -1,6 +1,5 @@
 $hover_color:rgb(201, 13, 235);
 $red:rgb(247, 1, 1);
-$bgcolor:rgb(202, 184, 184);
 $image:url(../img/webb.png);
 html {
     background-image: $image;
@@ -80,10 +79,16 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: $bgcolor;
+    color: white;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
 }
 
 a:hover {
     color: $hover_color;
     font-size: large;
+}
+
+a {
+    color: indianred;
 }

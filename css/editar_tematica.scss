@@ -60,8 +60,14 @@ footer {
     position: fixed;
     left: 0;
     bottom: 0;
+    color: white;
     width: 100%;
-    background-color: $bgcolor;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+}
+
+a {
+    color: indianred;
 }
 
 a:hover {

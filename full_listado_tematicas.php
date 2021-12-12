@@ -73,6 +73,7 @@ if (isset($_POST['enviar'])) {
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
             position: absolute;
             bottom: 0;
+            color:white;
             padding: 5px;
             width: 98%;
         }
@@ -82,15 +83,11 @@ if (isset($_POST['enviar'])) {
         }
 
         a {
-            color: brown;
+            color: black;
         }
 
         a:hover {
-            color: black;
-        }
-
-        a:visited {
-            color: black;
+            color: indianred;
         }
 
         #menu ul {
@@ -152,6 +149,10 @@ if (isset($_POST['enviar'])) {
             background-color: rgb(48, 48, 209);
         }
 
+        footer a{
+            color:white;
+        }
+        
         input[type=submit]:hover {
             color: white;
             width: 100px;
