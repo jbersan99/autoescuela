@@ -49,12 +49,13 @@ if (!Sesion::existe('usuario')) {
         #sortable1 li,
         #sortable2 li {
             margin: 5px;
-            padding: 5px;
+            color: white;
+            padding: 10px;
             font-size: 1.1em;
             width: 450px;
-            height: 50px;
-            text-align: center;
-            background-color:rgba(184, 167, 167, 0.842);
+            height: 60px;
+            display: block;
+            background-color:rgb(9,9,121,0.6);
             
         }
     </style>
@@ -93,7 +94,7 @@ if (!Sesion::existe('usuario')) {
                 <?php
 
                 foreach ($preguntas as $pregunta) {
-                    if(!$pregunta == "No hay preguntas"){
+                    if($pregunta != "No hay preguntas"){
                         $id_tematica = DB::getThematicbyId_Question($pregunta->getId());
                         $tematica = DB::getThematic($id_tematica);
                         echo '<li class="" id=pregunta_' . $pregunta->getId() . '>' . $pregunta->getEnunciado_pregunta() . "<br>" . "<b> Tematica: </b>" . $tematica->getTema() . '</li>';

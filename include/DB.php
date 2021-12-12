@@ -4,6 +4,7 @@ require_once "User.php";
 require_once "Preguntas.php";
 require_once "Examen.php";
 require_once "Tematica.php";
+require_once "Respuesta.php";
 
 class DB
 {
@@ -452,6 +453,31 @@ class DB
         return true;
     }
 
+    public static function getAnswerbyId($id): Respuesta
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from respuesta where id_pregunta = $id");
+
+        while ($respuesta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $respuesta = new Respuesta($respuesta_info);
+        }
+
+        return $respuesta;
+    }
+
+    public static function getAllAnswerbyId($id): array
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from respuesta where id_pregunta = $id");
+
+        while ($respuesta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $respuesta = new Respuesta($respuesta_info);
+            $respuestas[] = $respuesta;
+        }
+
+        return $respuestas;
+    }
+
     public static function insertExam($descripcion, $duracion, $id_preguntas)
     {
         self::conectarPDO();
@@ -462,5 +488,14 @@ class DB
         } else {
             return false;
         }
+    }
+
+    public static function getQuestionfromExam($id): String
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("SELECT id_preguntas FROM examen WHERE id = $id");
+
+        $numero = $consulta->fetch();
+        return $numero[0];
     }
 }

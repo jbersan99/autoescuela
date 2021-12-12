@@ -153,6 +153,10 @@ if (isset($_POST['enviar'])) {
             color:white;
         }
         
+        li:hover {
+            transform: skew(10deg);
+        }
+
         input[type=submit]:hover {
             color: white;
             width: 100px;

@@ -82,6 +82,10 @@ if (isset($_POST['enviar'])) {
             width: 98%;
         }
 
+        li:hover {
+            transform: skew(10deg);
+        }
+
         footer a{
             color:white;
         }

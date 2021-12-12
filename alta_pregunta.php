@@ -102,13 +102,13 @@ if (!Sesion::existe('usuario')) {
                 } else if (!$v->FraseValida($_POST['enunciado'])) {
                     echo '<span class="error">Introduce un enunciado valido</span> ';
                 } else if (!$v->FraseValida($_POST['respuesta_1'])) {
-                    echo '<span class="error">Introduce una respuesta valida</span> ';
+                    echo '<span class="error">Introduce una respuesta bien estructurada</span> ';
                 } else if (!$v->FraseValida($_POST['respuesta_2'])) {
-                    echo '<span class="error">Introduce una respuesta valida</span> ';
+                    echo '<span class="error">Introduce una respuesta estructurada</span> ';
                 } else if (!$v->FraseValida($_POST['respuesta_3'])) {
-                    echo '<span class="error">Introduce una respuesta valida</span> ';
+                    echo '<span class="error">Introduce una respuesta estructurada</span> ';
                 } else if (!$v->FraseValida($_POST['respuesta_4'])) {
-                    echo '<span class="error">Introduce una respuesta valida</span> ';
+                    echo '<span class="error">Introduce una respuesta estructurada</span> ';
                 } else {
                     $image = $_FILES['image']['tmp_name'];
                     $imgContenido = file_get_contents($image);

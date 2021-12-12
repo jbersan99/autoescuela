@@ -53,7 +53,7 @@ if (isset($_POST['enviar'])) {
     <script src="DataTables/datatables.min.js"></script>
     <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
 
-    <style>
+    <style>  
         div {
             background-image: url(img/webb.png);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -66,11 +66,6 @@ if (isset($_POST['enviar'])) {
         h1 {
             text-align: center;
         }
-
-        li:hover {
-            transform: skew(10deg);
-        }
-
 
         header {
             font-family: 'Oswald';
@@ -170,7 +165,6 @@ if (isset($_POST['enviar'])) {
             width: 100px;
             padding: 5px;
             opacity: 1;
-            transform: rotate(0.5turn);
             background-color: rgb(48, 48, 209);
         }
     </style>
@@ -187,7 +181,7 @@ if (isset($_POST['enviar'])) {
 
         ?>
 
-        <form method="post"></i><input type="submit" name="enviar" value="Cerrar Sesion"> <i class='fas fa-sign-out-alt'> </i></form>
+        <form method="post"></i><input type="submit" name="enviar" value="Cerrar Sesion"> <i class='fas fa-sign-out-alt'></form>
     </header>
 
     <div>
@@ -237,11 +231,11 @@ if (isset($_POST['enviar'])) {
             $(document).on('click', '#examenesTabla tr', function() {
                 var table = $('#examenesTabla').DataTable();
                 var id = table.row(this).data().id;
-                /* let editar = confirm("¿Deseas editar el examen con id " + id + "?"); */
+                let editar = confirm("¿Deseas hacer el examen con id " + id + "?");
 
-                /* if(editar){
-                    window.open("http://localhost/autoescuela/editar_examen?id="+ id, "_self");
-                } */
+                if(editar){
+                    window.open("http://localhost/autoescuela/prueba?id_examen="+ id, "_self");
+                }
 
             });
         });
