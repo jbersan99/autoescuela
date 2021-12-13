@@ -81,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $all_data = csvToArray('csv/csv_questions.csv', ",");
             DB::insertMassiveQuestions($all_data);
+            header("Location: full_listado_preguntas.php");
         }
     }
 }

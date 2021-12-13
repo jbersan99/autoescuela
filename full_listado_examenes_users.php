@@ -234,7 +234,7 @@ if (isset($_POST['enviar'])) {
                 let editar = confirm("¿Deseas hacer el examen con id " + id + "?");
 
                 if(editar){
-                    window.open("http://localhost/autoescuela/prueba?id_examen="+ id, "_self");
+                    window.open("http://localhost/autoescuela/realizar_examen?id_examen="+ id, "_self");
                 }
 
             });

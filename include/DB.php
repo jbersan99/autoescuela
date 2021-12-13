@@ -330,22 +330,7 @@ class DB
         $sql2 = self::$conexion->prepare("INSERT INTO respuesta (enunciado_respuesta, id_pregunta) 
             VALUES (:enunciado_respuesta, :id_pregunta)");
 
-        $sql3 = self::$conexion->prepare("INSERT INTO respuesta (enunciado_respuesta, id_pregunta) 
-            VALUES (':enunciado_respuesta', :id_pregunta)");
-
-        $sql4 = self::$conexion->prepare("INSERT INTO  respuesta (enunciado_respuesta, id_pregunta) 
-            VALUES (':enunciado_respuesta', :id_pregunta)");
-
-        $sql5 = self::$conexion->prepare("INSERT INTO respuesta (enunciado_respuesta, id_pregunta) 
-            VALUES (':enunciado_respuesta', :id_pregunta)");
-
         foreach ($all_data as $data) {
-            $sql->bindParam(':enunciado_pregunta', $data[0], PDO::PARAM_STR, 350);
-            $sql->bindParam(':respuesta_correcta', $data[1], PDO::PARAM_INT, 11);
-            $sql->bindParam(':recurso', $data[2], PDO::PARAM_LOB);
-            $sql->bindParam(':id_tematica', $data[3], PDO::PARAM_INT, 11);
-            $sql->execute();
-
             $last_question = self::getLastQuestion();
 
             $sql2->bindParam(':enunciado_respuesta', $data[4], PDO::PARAM_STR, 350);
@@ -358,9 +343,9 @@ class DB
                 self::$conexion->prepare($update_01)->execute([$numero['id'], $last_question]);
             }
 
-            $sql3->bindParam(':enunciado_respuesta', $data[5], PDO::PARAM_STR, 350);
-            $sql3->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
-            $sql3->execute();
+            $sql2->bindParam(':enunciado_respuesta', $data[5], PDO::PARAM_STR, 350);
+            $sql2->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
+            $sql2->execute();
             if ($data[1] == 2) {
                 $select_02 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
                 $numero = $select_02->fetch(PDO::FETCH_ASSOC);
@@ -369,9 +354,9 @@ class DB
             }
 
 
-            $sql4->bindParam(':enunciado_respuesta', $data[6], PDO::PARAM_STR, 350);
-            $sql4->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
-            $sql4->execute();
+            $sql2->bindParam(':enunciado_respuesta', $data[6], PDO::PARAM_STR, 350);
+            $sql2->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
+            $sql2->execute();
             if ($data[1] == 3) {
                 $select_03 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
                 $numero = $select_03->fetch(PDO::FETCH_ASSOC);
@@ -380,15 +365,23 @@ class DB
             }
 
 
-            $sql5->bindParam(':enunciado_respuesta', $data[7], PDO::PARAM_STR, 350);
-            $sql5->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
-            $sql5->execute();
+            $sql2->bindParam(':enunciado_respuesta', $data[7], PDO::PARAM_STR, 350);
+            $sql2->bindParam(':id_pregunta', $last_question, PDO::PARAM_INT, 11);
+            $sql2->execute();
             if ($data[1] == 4) {
                 $select_04 = self::$conexion->query("SELECT id FROM respuesta ORDER BY id DESC LIMIT 0, 1");
                 $numero = $select_04->fetch(PDO::FETCH_ASSOC);
                 $update_04 = "UPDATE preguntas SET respuesta_correcta=? WHERE id=?";
                 self::$conexion->prepare($update_04)->execute([$numero['id'], $last_question]);
             }
+
+
+            $sql->bindParam(':enunciado_pregunta', $data[0], PDO::PARAM_STR, 350);
+            $sql->bindParam(':respuesta_correcta', $data[1], PDO::PARAM_INT, 11);
+            $sql->bindParam(':recurso', $data[2], PDO::PARAM_LOB);
+            $sql->bindParam(':id_tematica', $data[3], PDO::PARAM_INT, 11);
+            $sql->execute();
+
         }
     }
 
@@ -476,6 +469,19 @@ class DB
         }
 
         return $respuestas;
+    }
+
+    public static function getAllQuestionsbyId($id): array
+    {
+        self::conectarPDO();
+        $consulta = self::$conexion->query("select * from preguntas where id = $id");
+
+        while ($pregunta_info = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $pregunta = new Preguntas($pregunta_info);
+            $preguntas[] = $pregunta;
+        }
+
+        return $preguntas;
     }
 
     public static function insertExam($descripcion, $duracion, $id_preguntas)
