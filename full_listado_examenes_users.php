@@ -181,7 +181,7 @@ if (isset($_POST['enviar'])) {
 
         ?>
 
-        <form method="post"></i><input type="submit" name="enviar" value="Cerrar Sesion"> <i class='fas fa-sign-out-alt'></form>
+        <form method="post"></i><input type="submit" name="enviar" value="Cerrar Sesion"> <i class='fas fa-sign-out-alt'> </i></form>
     </header>
 
     <div>

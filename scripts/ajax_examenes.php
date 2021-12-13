@@ -1,4 +1,6 @@
 <?php
+include "../include/DB.php";
+
 $server = "localhost";
 $username = "root";
 $password = "";
@@ -62,10 +64,12 @@ $empRecords = $stmt->fetchAll();
 $data = array();
 
 foreach ($empRecords as $row) {
+    $id_questions = DB::getQuestionfromExam($row['id']);
+    $partes = explode(",", $id_questions);
     $data[] = array(
         "id" => $row['id'],
         "descripcion" => $row['descripcion'],
-        "preguntas" => "Ninguno",
+        "preguntas" => count($partes),
         "duracion" => $row['duracion'],
         "activado" => $row['activado'],
     );
