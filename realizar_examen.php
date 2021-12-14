@@ -39,7 +39,6 @@
         $page = $_GET['page'];
     }
 
-
     $start = ($page - 1) * $limit;
 
     $id = $_GET['id_examen'];
@@ -57,7 +56,6 @@
     $conn = null;
 
     $total_pages = count($partes) - 1;
-    // var_dump($results);
 
     $no = $page > 1 ? $start + 1 : 1;
 
