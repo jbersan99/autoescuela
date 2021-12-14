@@ -43,7 +43,7 @@ main {
     }
     input[type=submit] {
         color: white;
-        width: 67px;
+        width: 110px;
         margin-left: 197px;
         margin-top: 24px;
         padding: 5px;
@@ -70,12 +70,14 @@ section {
 }
 
 footer {
-    padding: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 35px;
     text-align: center;
-    position: fixed;
+    position: relative;
     left: 0;
-    bottom: 0;
     color: white;
+    bottom: 0;
     width: 100%;
     background: rgb(2, 0, 36);
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);

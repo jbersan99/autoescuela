@@ -4,28 +4,19 @@ html {
 }
 
 header {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-size: 22px;
 }
-
 header h1 {
   text-shadow: 2px 2px #f70101;
   text-align: center;
 }
 
 main {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  align-items: center;
+  flex-direction: column;
 }
-
 main input[type=submit] {
   color: white;
   width: 100px;
@@ -39,32 +30,26 @@ main input[type=submit] {
 .error {
   font-size: 17px;
   font-weight: bold;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  font-family: 'Courier New', Courier, monospace;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Courier New", Courier, monospace;
   color: #f70101;
   bottom: 0;
   width: 100%;
 }
 
 footer {
-  padding: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 35px;
   text-align: center;
-  position: fixed;
+  position: relative;
   left: 0;
+  color: white;
   bottom: 0;
   width: 100%;
-  color: white;
   background: #020024;
-  background: -webkit-gradient(linear, left top, right top, from(#020024), color-stop(35%, #090979), to(#00d4ff));
   background: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
 }
 
@@ -75,5 +60,4 @@ a {
 a:hover {
   color: #c90deb;
   font-size: large;
-}
-/*# sourceMappingURL=alta_masiva_usuarios.css.map */
+}/*# sourceMappingURL=alta_masiva_usuarios.css.map */

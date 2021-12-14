@@ -53,7 +53,7 @@ if (isset($_POST['enviar'])) {
     <script src="DataTables/datatables.min.js"></script>
     <script src="https://kit.fontawesome.com/978435c791.js" crossorigin="anonymous"></script>
 
-    <style>  
+    <style>
         div {
             background-image: url(img/webb.png);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -73,16 +73,17 @@ if (isset($_POST['enviar'])) {
         }
 
         footer {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-top: 35px;
             text-align: center;
+            position: relative;
+            left: 0;
             color: white;
+            bottom: 0;
+            width: 100%;
             background: rgb(2, 0, 36);
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
-            position: absolute;
-            bottom: 0;
-            color: white;
-            padding: 5px;
-            width: 98%;
         }
 
         section {
@@ -233,8 +234,8 @@ if (isset($_POST['enviar'])) {
                 var id = table.row(this).data().id;
                 let editar = confirm("¿Deseas hacer el examen con id " + id + "?");
 
-                if(editar){
-                    window.open("http://localhost/autoescuela/realizar_examen?id_examen="+ id, "_self");
+                if (editar) {
+                    window.open("http://localhost/autoescuela/realizar_examen?id_examen=" + id, "_self");
                 }
 
             });
