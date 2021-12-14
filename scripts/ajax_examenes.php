@@ -31,8 +31,8 @@ if ($searchValue != '') {
     $searchQuery = " AND (id LIKE :id or descripcion LIKE :descripcion or duracion LIKE :duracion ) ";
     $searchArray = array(
         'id' => "%$searchValue%",
-        'email' => "%$searchValue%",
-        'nombre' => "%$searchValue%",
+        'descripcion' => "%$searchValue%",
+        'duracion' => "%$searchValue%",
     );
 }
 
